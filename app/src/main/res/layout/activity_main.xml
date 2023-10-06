@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="197dp"
-            android:layout_height="170dp"
+            android:layout_width="132dp"
+            android:layout_height="116dp"
             android:layout_marginTop="36dp"
             android:src="@drawable/logo_brownies"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,18 +28,34 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="104dp"
+            android:fontFamily="@font/sulphur_point_bold"
             android:text="SI-Brownies"
             android:textColor="@color/white"
-            tools:layout_editor_absoluteX="50dp"
-            tools:layout_editor_absoluteY="231dp" />
+            android:textSize="30dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="52dp"
-            tools:layout_editor_absoluteY="281dp" />
+            android:layout_width="307dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            android:elevation="2dp"
+            android:fontFamily="@font/sulphur_point_bold"
+            android:outlineAmbientShadowColor="#000000"
+            android:outlineSpotShadowColor="#000000"
+            android:text="Sempurnakan acaramu dengan pesan kue sat-set anti ribet, dimanapun kapanpun"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,6 +67,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="122dp"
+            android:layout_height="32dp"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="146dp"
+            tools:layout_editor_absoluteY="32dp" />
 
+        <EditText
+            android:id="@+id/editTextPhone"
+            android:layout_width="334dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="phone"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="74dp" />
+
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="333dp"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="166dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
