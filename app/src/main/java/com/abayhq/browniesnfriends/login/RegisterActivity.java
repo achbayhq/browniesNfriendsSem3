@@ -1,35 +1,39 @@
 package com.abayhq.browniesnfriends.login;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.abayhq.browniesnfriends.R;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private EditText pass;
     private Button visibilityButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
+
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item);
+        adapter.add("Pilih Pertanyaan");
+        adapter.add("Di kota apa Anda lahir?");
+        adapter.add("Siapa Nama Cinta Pertama Anda?");
+        adapter.add("Siapa Nama Istri Ayah Anda?");
+        adapter.add("Siapa Nama Nenek dari Nenek Anda?");
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         pass = findViewById(R.id.passLogin);
         visibilityButton = findViewById(R.id.visibilityButton);
-
-
-
     }
 
     public void toggleVisibility(View view) {
@@ -44,11 +48,5 @@ public class MainActivity extends AppCompatActivity {
             visibilityButton.setBackgroundResource(R.drawable.buka_pass);
         }
         pass.setSelection(pass.getText().length());
-    }
-
-
-    public void keRegister(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
     }
 }
