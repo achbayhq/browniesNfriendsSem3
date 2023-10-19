@@ -1,19 +1,16 @@
 package com.abayhq.browniesnfriends.login;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.abayhq.browniesnfriends.R;
+import com.abayhq.browniesnfriends.home.DasboardActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void keRegister(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void keDashboard(View view) {
+        Intent intent = new Intent(this, DasboardActivity.class);
         startActivity(intent);
     }
 }

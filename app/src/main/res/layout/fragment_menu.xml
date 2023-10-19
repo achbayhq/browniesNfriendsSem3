@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".menu.menuFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DFBCB9">
+
+
+    <Button
+        android:id="@+id/btnBackM"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#DFBCB9"
+        app:icon="@drawable/logo_back"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="25dp"
+        app:iconTint="#231210"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnTertanda"
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#DFBCB9"
+        app:icon="@drawable/logo_tertanda"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="55dp"
+        app:iconTint="#231210"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView8"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="90dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:background="@color/white" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                app:icon="@drawable/logo_cari"
+                app:iconGravity="textStart"
+                app:iconPadding="3dp"
+                app:iconSize="30dp"
+                app:iconTint="@color/black" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@id/cardView8"
+        app:layout_constraintStart_toStartOf="@id/cardView8"
+        app:layout_constraintTop_toBottomOf="@+id/cardView8">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:backgroundTint="#FFBCB5"
+                android:elevation="5dp"
+                android:fontFamily="@font/poppins"
+                android:text="All"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:strokeColor="#8B4741"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:backgroundTint="#FFBCB5"
+                android:elevation="5dp"
+                android:fontFamily="@font/poppins"
+                android:text="Best Seller"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:strokeColor="#8B4741"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:backgroundTint="#FFBCB5"
+                android:elevation="5dp"
+                android:fontFamily="@font/poppins"
+                android:text="Kue Manis"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:strokeColor="#8B4741"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:backgroundTint="#FFBCB5"
+                android:elevation="5dp"
+                android:fontFamily="@font/poppins"
+                android:text="Kue Asin"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:strokeColor="#8B4741"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:backgroundTint="#FFBCB5"
+                android:elevation="5dp"
+                android:fontFamily="@font/poppins"
+                android:text="Kemasan"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:strokeColor="#8B4741"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menuUtama"
+        android:layout_width="380dp"
+        android:layout_height="634dp"
+        android:layout_marginTop="6dp"
+        tools:listitem="@layout/card_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

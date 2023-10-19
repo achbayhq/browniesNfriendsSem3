@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="370dp"
+        android:layout_height="135dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/lingkaran_putih">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView10"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="12dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgMenuM"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/menu_a" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/namaMenuM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="Nama Menu"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView10"
+            app:layout_constraintStart_toEndOf="@+id/cardView10"
+            app:layout_constraintTop_toTopOf="@+id/cardView10"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/desMenuM"
+            android:layout_width="160dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="4dp"
+            android:text="Deskripsi kue ini adalah seperti ini sangat ini bukan nah jadi segera inikan"
+            android:textColor="@color/black"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="@+id/namaMenuM"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/namaMenuM"
+            app:layout_constraintTop_toBottomOf="@+id/namaMenuM" />
+
+        <TextView
+            android:id="@+id/hargaMenuM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="Rp. 43.000"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/desMenuM"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/desMenuM"
+            app:layout_constraintTop_toBottomOf="@+id/desMenuM" />
+
+        <Button
+            android:id="@+id/btnPenanda"
+            android:layout_width="32dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/white"
+            app:icon="@drawable/logo_penanda"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="23dp"
+            app:iconTint="#231210"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btnBeliM"
+            android:layout_width="43dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="4dp"
+            android:backgroundTint="@color/white"
+            app:icon="@drawable/logo_keranjang"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="33dp"
+            app:iconTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.933" />
+
+        <Button
+            android:id="@+id/btnKurang"
+            android:layout_width="31dp"
+            android:layout_height="33dp"
+            android:layout_marginEnd="88dp"
+            android:backgroundTint="@color/white"
+            app:icon="@drawable/logo_kurang"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="25dp"
+            app:iconTint="#FF7566"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.856" />
+
+        <EditText
+            android:id="@+id/txtQty"
+            android:layout_width="32dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:inputType="number"
+            android:text="100"
+            android:textSize="11sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins"
+            app:layout_constraintBottom_toBottomOf="@+id/btnKurang"
+            app:layout_constraintStart_toEndOf="@+id/btnKurang"
+            app:layout_constraintTop_toTopOf="@+id/btnKurang"
+            app:layout_constraintVertical_bias="0.692" />
+
+        <Button
+            android:id="@+id/btnTambah"
+            android:layout_width="31dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="-8dp"
+            android:backgroundTint="@color/white"
+            app:icon="@drawable/logo_tambah"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="25dp"
+            app:iconTint="#FF7566"
+            app:layout_constraintBottom_toBottomOf="@+id/txtQty"
+            app:layout_constraintStart_toEndOf="@+id/txtQty"
+            app:layout_constraintTop_toTopOf="@+id/txtQty"
+            app:layout_constraintVertical_bias="0.692" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="200dp"
+        android:layout_height="232dp"
+        android:background="@drawable/lingkaran_putih"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgMenu"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/menu_a" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/namaMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-20dp"
+            android:layout_marginTop="6dp"
+            android:text="Nama Kuenya"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            app:layout_constraintEnd_toEndOf="@+id/cardView9"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/cardView9"
+            app:layout_constraintTop_toBottomOf="@+id/cardView9" />
+
+        <TextView
+            android:id="@+id/desMenu"
+            android:layout_width="166dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="2dp"
+            android:text="Deskripsi kue ini adalah seperti ini sangat ini bukan nah jadi segera inikan"
+            android:textSize="8sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            app:layout_constraintEnd_toEndOf="@+id/namaMenu"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/namaMenu"
+            app:layout_constraintTop_toBottomOf="@+id/namaMenu" />
+
+        <TextView
+            android:id="@+id/hargaMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/poppins"
+            android:text="Rp. 12.345"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/desMenu"
+            app:layout_constraintHorizontal_bias="0.067"
+            app:layout_constraintStart_toStartOf="@+id/desMenu"
+            app:layout_constraintTop_toBottomOf="@+id/desMenu" />
+
+        <Button
+            android:id="@+id/btnBeli"
+            android:layout_width="38dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/white"
+            app:icon="@drawable/logo_keranjang"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="30dp"
+            app:iconTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/hargaMenu"
+            app:layout_constraintStart_toEndOf="@+id/hargaMenu"
+            app:layout_constraintTop_toTopOf="@+id/hargaMenu"
+            app:layout_constraintVertical_bias="0.608" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
