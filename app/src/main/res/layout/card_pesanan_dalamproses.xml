@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@drawable/border_garisbawah">
+
+        <TextView
+            android:id="@+id/tglProses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="30 September 2004"
+            android:textColor="#660A00"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.067"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/statusProses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Pesanan Sedang Diproses"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="#63372C"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgStatusProses"
+            app:layout_constraintStart_toEndOf="@+id/imgStatusProses"
+            app:layout_constraintTop_toTopOf="@+id/imgStatusProses" />
+
+        <TextView
+            android:id="@+id/txtTotalHargaProses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500.000"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="#63372C"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView43"
+            app:layout_constraintStart_toEndOf="@+id/textView43"
+            app:layout_constraintTop_toTopOf="@+id/textView43" />
+
+        <TextView
+            android:id="@+id/textView43"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Rp "
+            android:textColor="#63372C"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.727"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnLihatNotaProses"
+            android:layout_width="135dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:backgroundTint="@color/brownButton"
+            android:text="Lihat Nota"
+            android:textSize="13dp"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.929"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTotalHargaProses" />
+
+        <ImageView
+            android:id="@+id/imgStatusProses"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintEnd_toEndOf="@+id/tglProses"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tglProses"
+            app:layout_constraintTop_toBottomOf="@+id/tglProses"
+            app:srcCompat="@drawable/logo_proses" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

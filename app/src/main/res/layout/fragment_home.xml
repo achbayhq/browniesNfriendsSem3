@@ -3,32 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="780dp"
     tools:context=".home.homeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DAB3B0">
+        android:background="@color/basePutih">
 
 
         <ImageView
             android:id="@+id/imageView8"
-            android:layout_width="456dp"
-            android:layout_height="273dp"
-            android:layout_marginStart="-20dp"
-            android:layout_marginTop="-30dp"
-            android:src="@drawable/home_img"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="110dp"
+            android:src="@drawable/banner_das"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.56"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView5"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="-55dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="250dp"
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,108 +38,99 @@
             <ImageView
                 android:id="@+id/photoProfile"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/anime_pp" />
+                android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView8"
-            android:layout_width="340dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="205dp"
-            app:cardCornerRadius="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:layout_width="260dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="20dp"
-                    android:background="@color/white"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/white"
-                    app:icon="@drawable/logo_cari"
-                    app:iconGravity="textStart"
-                    app:iconPadding="3dp"
-                    app:iconSize="30dp"
-                    app:iconTint="@color/black" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/textView6"
-            android:layout_width="359dp"
-            android:layout_height="81dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/txtNamaHome"
+            android:layout_width="300dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/markazi_text"
-            android:text="Hi! Achmad Bayhaqi"
+            android:text="Hi, "
             android:textColor="@color/black"
-            android:textSize="35sp"
+            android:textSize="32sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/cardView5"
-            app:layout_constraintHorizontal_bias="0.007"
-            app:layout_constraintStart_toStartOf="@+id/cardView5"
-            app:layout_constraintTop_toBottomOf="@+id/cardView5" />
+            app:layout_constraintBottom_toBottomOf="@+id/cardView5"
+            app:layout_constraintStart_toEndOf="@+id/cardView5"
+            app:layout_constraintTop_toTopOf="@+id/cardView5"
+            app:layout_constraintVertical_bias="0.205" />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins"
-            android:text="Best Seller"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/prompt_semibold"
+            android:text="Paling Laris"
             android:textColor="@color/black"
-            android:textSize="22sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.056"
+            app:layout_constraintHorizontal_bias="0.053"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView8" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/menuBestSeller"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            tools:listitem="@layout/card_home_menu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
-            android:text="Paket Hemat"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/prompt_semibold"
+            android:text="Pesan dari Kategori"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.065"
+            app:layout_constraintHorizontal_bias="0.083"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menuBestSeller" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/menuPaketHemat"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            tools:listitem="@layout/card_home_menu"
-            app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/markazi_text_semibold"
+            android:text="Mau pesan kue apa hari ini?"
+            android:textColor="@color/brownLogo"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/txtNamaHome"
             app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/txtNamaHome"
+            app:layout_constraintTop_toBottomOf="@+id/txtNamaHome" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:src="@drawable/banner_bestseller"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="185dp"
+            android:layout_height="255dp"
+            android:layout_marginStart="14dp"
+            android:src="@drawable/banner_kuemanis"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintVertical_bias="0.204" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="185dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/banner_kuegurih"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+            app:layout_constraintStart_toEndOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/imageView10"
+            app:layout_constraintVertical_bias="0.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

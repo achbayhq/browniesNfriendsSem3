@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@drawable/border_garisbawah">
+
+        <TextView
+            android:id="@+id/tglTerjadwal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="30 September 2004"
+            android:textColor="#660A00"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.067"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/statusTerjadwal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Menunggu Konfirmasi"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="#63372C"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgStatusTerjadwal"
+            app:layout_constraintStart_toEndOf="@+id/imgStatusTerjadwal"
+            app:layout_constraintTop_toTopOf="@+id/imgStatusTerjadwal" />
+
+        <TextView
+            android:id="@+id/txtTotalHargaTerjadwal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500.000"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="#63372C"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView41"
+            app:layout_constraintStart_toEndOf="@+id/textView41"
+            app:layout_constraintTop_toTopOf="@+id/textView41" />
+
+        <TextView
+            android:id="@+id/textView41"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Rp "
+            android:textColor="#63372C"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.704"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnLihatNota"
+            android:layout_width="135dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:backgroundTint="@color/brownButton"
+            android:text="Lihat Nota"
+            android:textSize="13dp"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.929"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTotalHargaTerjadwal" />
+
+        <ImageView
+            android:id="@+id/imgStatusTerjadwal"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintEnd_toEndOf="@+id/tglTerjadwal"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tglTerjadwal"
+            app:layout_constraintTop_toBottomOf="@+id/tglTerjadwal"
+            app:srcCompat="@drawable/logo_menunggu" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

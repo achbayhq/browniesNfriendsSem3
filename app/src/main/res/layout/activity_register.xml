@@ -37,23 +37,12 @@
         <View
             android:id="@+id/view"
             android:layout_width="100dp"
-            android:layout_height="4dp"
+            android:layout_height="6dp"
             android:layout_marginTop="15dp"
-            android:background="#63372C"
+            android:background="@color/brownLogo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="85dp"
-            android:layout_height="75dp"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/border"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:srcCompat="@drawable/logo_add_image" />
 
         <View
             android:id="@+id/view1"
@@ -74,7 +63,7 @@
             android:gravity="center"
             android:text="Registrasi"
             android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textSize="28dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,13 +71,13 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="320dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="18dp"
             app:cardCornerRadius="30dp"
-            app:layout_constraintStart_toStartOf="@+id/imageView4"
-            app:layout_constraintTop_toBottomOf="@id/imageView4"
-            app:layout_constraintEnd_toEndOf="@id/imageView4">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -98,20 +87,21 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="8dp"
-                    android:padding="3dp"
-                    android:src="@drawable/logouser"
+                    android:padding="9dp"
+                    android:src="@drawable/logo_nama"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/brownLogo" />
 
                 <EditText
-                    android:id="@+id/tlpLogin"
+                    android:id="@+id/namaRegister"
                     android:layout_width="250dp"
                     android:layout_height="0dp"
-                    android:background="#FFBCB5"
+                    android:background="@color/basePutih"
                     android:ems="10"
                     android:fontFamily="@font/poppins"
                     android:hint="Nama Lengkap"
@@ -126,7 +116,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
-            android:layout_width="320dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:cardCornerRadius="30dp"
@@ -143,11 +133,12 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="8dp"
-                    android:padding="3dp"
-                    android:src="@drawable/logo_whatsapp"
+                    android:padding="8dp"
+                    android:src="@drawable/logo_telephone"
+                    app:tint="@color/brownLogo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -156,10 +147,10 @@
                     android:id="@+id/tlpRegister"
                     android:layout_width="250dp"
                     android:layout_height="0dp"
-                    android:background="#FFBCB5"
+                    android:background="@color/basePutih"
                     android:ems="10"
                     android:fontFamily="@font/poppins"
-                    android:hint="No. WhatsApp"
+                    android:hint="No. Telephone"
                     android:inputType="phone"
                     android:padding="4dp"
                     app:layout_constraintBottom_toBottomOf="@id/imageView3"
@@ -171,7 +162,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
-            android:layout_width="320dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:cardCornerRadius="30dp"
@@ -188,20 +179,21 @@
 
                 <ImageView
                     android:id="@+id/alamatImg"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="8dp"
-                    android:padding="4dp"
+                    android:padding="8dp"
                     android:src="@drawable/logolock"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/brownLogo" />
 
                 <EditText
-                    android:id="@+id/passLogin"
+                    android:id="@+id/passRegister"
                     android:layout_width="220dp"
                     android:layout_height="0dp"
-                    android:background="#FFBCB5"
+                    android:background="@color/basePutih"
                     android:ems="10"
                     android:fontFamily="@font/poppins"
                     android:hint="Password"
@@ -215,13 +207,14 @@
                 <Button
                     android:id="@+id/visibilityButton"
                     android:layout_width="35dp"
-                    android:layout_height="34dp"
+                    android:layout_height="35dp"
                     android:layout_marginStart="4dp"
                     android:background="@drawable/tutup_pass"
+                    app:iconGravity="textStart"
                     android:onClick="toggleVisibility"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/passLogin"
-                    app:layout_constraintTop_toTopOf="@+id/passLogin"
+                    app:layout_constraintStart_toEndOf="@+id/passRegister"
+                    app:layout_constraintTop_toTopOf="@+id/passRegister"
                     app:layout_constraintVertical_bias="0.416" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -229,7 +222,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView4"
-            android:layout_width="320dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:cardCornerRadius="30dp"
@@ -246,11 +239,12 @@
 
                 <ImageView
                     android:id="@+id/imageView5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="8dp"
-                    android:padding="3dp"
+                    android:padding="7dp"
                     android:src="@drawable/logo_home"
+                    app:tint="@color/brownLogo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -259,7 +253,7 @@
                     android:id="@+id/alamatRegister"
                     android:layout_width="250dp"
                     android:layout_height="0dp"
-                    android:background="#FFBCB5"
+                    android:background="@color/basePutih"
                     android:ems="10"
                     android:hint="Alamat"
                     android:fontFamily="@font/poppins"
@@ -274,14 +268,15 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="190dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="210dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="22dp"
             android:backgroundTint="#63372C"
             android:fontFamily="@font/poppins"
             android:text="Daftar"
             android:textSize="18dp"
             android:textStyle="bold"
+            android:onClick="register"
             app:layout_constraintEnd_toEndOf="@+id/cardView6"
             app:layout_constraintStart_toStartOf="@+id/cardView6"
             app:layout_constraintTop_toBottomOf="@+id/cardView6" />
@@ -301,7 +296,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView7"
-            android:layout_width="320dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:cardCornerRadius="30dp"
@@ -317,14 +312,19 @@
 
                 <ImageView
                     android:id="@+id/imageView7"
-                    android:layout_width="48dp"
-                    android:layout_height="40dp"
-                    app:srcCompat="@drawable/logo_question" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:padding="9dp"
+                    app:tint="@color/brownLogo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/logo_pertanyaan" />
                 <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="255dp"
                     android:layout_height="0dp"
-                    android:background="@drawable/border"
                     app:layout_constraintBottom_toBottomOf="@id/imageView7"
                     app:layout_constraintStart_toEndOf="@id/imageView7"
                     app:layout_constraintTop_toTopOf="@id/imageView7" />
@@ -334,7 +334,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView6"
-            android:layout_width="320dp"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:cardCornerRadius="30dp"
@@ -351,11 +351,12 @@
 
                 <ImageView
                     android:id="@+id/imageView6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="8dp"
-                    android:padding="1dp"
-                    android:src="@drawable/logo_jawab"
+                    android:padding="10dp"
+                    android:src="@drawable/logo_jawaban"
+                    app:tint="@color/brownLogo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -364,7 +365,7 @@
                     android:id="@+id/jawabanRegister"
                     android:layout_width="250dp"
                     android:layout_height="0dp"
-                    android:background="#FFBCB5"
+                    android:background="@color/basePutih"
                     android:ems="10"
                     android:fontFamily="@font/poppins"
                     android:hint="Jawaban"

@@ -30,6 +30,11 @@ android {
 
 dependencies {
 
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
+    implementation("com.android.volley:volley:1.2.1")
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.23")
     implementation ("nl.joery.animatedbottombar:library:1.1.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")

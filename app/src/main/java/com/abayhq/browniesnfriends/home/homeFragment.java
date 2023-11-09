@@ -1,18 +1,31 @@
 package com.abayhq.browniesnfriends.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abayhq.browniesnfriends.R;
-import com.abayhq.browniesnfriends.adapter.adapterMenuDas;
+import com.abayhq.browniesnfriends.login.MainActivity;
+import com.abayhq.browniesnfriends.respons.userLoginRespons;
+import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
+import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -63,52 +76,51 @@ public class homeFragment extends Fragment {
         }
     }
 
-    private RecyclerView menuBest, menuPaket;
-    private adapterMenuDas adapter, adapter1;
-    private ArrayList<setgetMenu> menuArrayList, menuArrayList1;
+    TextView txtNama;
+    ImageView photoProfile;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
 
-        addMenu();
-        menuBest = root.findViewById(R.id.menuBestSeller);
-        adapter = new adapterMenuDas(menuArrayList, getContext());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        menuBest.setLayoutManager(layoutManager);
-        menuBest.setAdapter(adapter);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        String telepon = sharedPreferences.getString("telepon", "");
 
-        addMenuPaket();
-        menuPaket = root.findViewById(R.id.menuPaketHemat);
-        adapter1 = new adapterMenuDas(menuArrayList1, getContext());
-        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        menuPaket.setLayoutManager(layoutManager1);
-        menuPaket.setAdapter(adapter1);
+        photoProfile = root.findViewById(R.id.photoProfile);
+        txtNama = root.findViewById(R.id.txtNamaHome);
+
+        if (!telepon.equals("")){
+            Gson gson = new Gson();
+            volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
+            volleyRequestHandler.loginUser(telepon, new volleyRequestHandler.ResponseListener() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    userLoginRespons userRespon = gson.fromJson(response.toString(), userLoginRespons.class);
+                    if (userRespon.getCode() == 200) {
+                        dataUserLogin loggedUser = userRespon.getUser_list().get(0);
+                        String userName = loggedUser.getNama();
+                        String userPPbase64 = loggedUser.getPhoto_profile();
+                        txtNama.setText(getString(R.string.hi)+ userName +getString(R.string.tanda_seru));
+                        if (userPPbase64.equals("")){
+                            photoProfile.setImageResource(R.drawable.default_pp);
+                        }else{
+                            byte[] imagePP = Base64.decode(userPPbase64, Base64.DEFAULT);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(imagePP, 0, imagePP.length);
+                            photoProfile.setImageBitmap(bitmap);
+                        }
+                    }else if (userRespon.getCode() == 404) {
+                        Toast.makeText(getContext(), "User Tidak Ditemukan", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
+        }
 
         return root;
-    }
-
-    void addMenu(){
-        menuArrayList = new ArrayList<>();
-        menuArrayList.add(new setgetMenu(R.drawable.menu_a, "Menu A", "Kue A ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 10.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_b, "Menu B", "Kue B ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_c, "Menu C", "Kue C ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 12.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_d, "Menu D", "Kue D ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 14.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_a, "Menu E", "Kue E ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_b, "Menu F", "Kue F ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 16.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_c, "Menu G", "Kue G ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 17.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_d, "Menu H", "Kue H ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 18.000"));
-    }
-    void addMenuPaket(){
-        menuArrayList1 = new ArrayList<>();
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_d, "Menu H", "Kue H ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 10.000"));
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_c, "Menu G", "Kue G ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_b, "Menu F", "Kue F ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 12.000"));
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_a, "Menu E", "Kue E ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 14.000"));
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_a, "Menu D", "Kue D ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_b, "Menu C", "Kue C ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 16.000"));
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_c, "Menu B", "Kue B ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 17.000"));
-        menuArrayList1.add(new setgetMenu(R.drawable.menu_d, "Menu A", "Kue A ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 18.000"));
     }
 }

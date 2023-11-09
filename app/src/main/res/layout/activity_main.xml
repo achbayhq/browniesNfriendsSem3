@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="560dp"
+        android:layout_height="618dp"
         android:background="@drawable/background_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,9 +16,9 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="132dp"
-            android:layout_height="116dp"
-            android:layout_marginTop="36dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="30dp"
             android:src="@drawable/logo_brownies"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,9 +28,9 @@
             android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:layout_marginTop="192dp"
-            android:background="@drawable/gradasi_black"
+            android:layout_marginTop="135dp"
             android:alpha="0.9"
+            android:background="@drawable/gradasi_brown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,18 +38,17 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="362dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="363dp"
+            android:layout_height="88dp"
             android:elevation="2dp"
-            android:fontFamily="@font/sulphur_point_bold"
-            android:text="Sempurnakan acaramu dengan pesan kue sat-set anti ribet, dimanapun kapanpun"
-            android:textColor="@color/white"
-            android:textSize="20dp"
+            android:fontFamily="@font/poppins"
             android:shadowColor="@color/black"
-            android:shadowRadius="2"
             android:shadowDx="2"
             android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Sempurnakan acaramu dengan pesan kue sat-set anti ribet, dimanapun kapanpun"
+            android:textColor="@color/basePutih"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="@+id/textView"
             app:layout_constraintHorizontal_bias="0.042"
             app:layout_constraintStart_toStartOf="@+id/textView"
@@ -59,27 +58,29 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="144dp"
-            android:fontFamily="@font/sulphur_point_bold"
-            android:text="SI-Brownies"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/poppins"
             android:shadowColor="@color/black"
-            android:shadowRadius="2"
             android:shadowDx="2"
             android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="SI-Brownies"
+            android:textColor="@color/basePutih"
+            android:textSize="43dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.075"
+            app:layout_constraintHorizontal_bias="0.099"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutLogin"
         android:layout_width="match_parent"
-        android:layout_height="365dp"
+        android:layout_height="385dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/login_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,23 +131,24 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="8dp"
                     android:padding="3dp"
                     android:src="@drawable/logouser"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/brownLogo" />
 
                 <EditText
                     android:id="@+id/tlpLogin"
                     android:layout_width="250dp"
                     android:layout_height="0dp"
-                    android:background="#FFBCB5"
+                    android:background="@color/basePutih"
                     android:ems="10"
-                    android:hint="No. Telephone"
                     android:fontFamily="@font/poppins"
+                    android:hint="No. Telephone"
                     android:inputType="phone"
                     android:padding="4dp"
                     app:layout_constraintBottom_toBottomOf="@id/imageView2"
@@ -158,14 +160,15 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2"
+            android:visibility="gone"
+            android:id="@+id/cardViewPassLogin"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="18dp"
             app:cardCornerRadius="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
             app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/cardView"
             app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -176,23 +179,24 @@
 
                 <ImageView
                     android:id="@+id/alamatImg"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="8dp"
                     android:padding="4dp"
                     android:src="@drawable/logolock"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/brownLogo" />
 
                 <EditText
                     android:id="@+id/passLogin"
                     android:layout_width="220dp"
                     android:layout_height="0dp"
-                    android:background="#FFBCB5"
+                    android:background="@color/basePutih"
                     android:ems="10"
-                    android:hint="Password"
                     android:fontFamily="@font/poppins"
+                    android:hint="Password"
                     android:inputType="textPassword"
                     android:padding="4dp"
                     app:layout_constraintBottom_toBottomOf="@id/alamatImg"
@@ -207,6 +211,7 @@
                     android:layout_marginStart="4dp"
                     android:background="@drawable/tutup_pass"
                     android:onClick="toggleVisibility"
+                    app:iconGravity="textStart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/passLogin"
                     app:layout_constraintTop_toTopOf="@+id/passLogin"
@@ -219,27 +224,28 @@
             android:id="@+id/login"
             android:layout_width="184dp"
             android:layout_height="46dp"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#63372C"
             android:fontFamily="@font/poppins"
+            android:onClick="login"
             android:text="Masuk"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:onClick="keDashboard"
-            android:backgroundTint="#63372C"
-            app:layout_constraintEnd_toEndOf="@+id/cardView2"
-            app:layout_constraintStart_toStartOf="@+id/cardView2"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+            app:layout_constraintTop_toBottomOf="@id/cardViewPassLogin"
+            app:layout_constraintEnd_toEndOf="@id/cardViewPassLogin"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@id/cardViewPassLogin" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="22dp"
+            android:layout_marginBottom="11dp"
             android:onClick="keRegister"
             android:text="Belum Punya Akun? Register "
+            android:textColor="#262322"
             android:textSize="17dp"
             android:textStyle="bold"
-            android:textColor="#262322"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
@@ -249,11 +255,53 @@
             android:id="@+id/view3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="50dp"
             android:background="#63372C"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="-12dp"
+            android:text="Lupa Password?"
+            android:textColor="#262322"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/login"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/login"
+            app:layout_constraintTop_toBottomOf="@+id/login" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="4dp"
+            android:text="Klik Disini"
+            android:textColor="@color/brownButton"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:onClick="keLupaPassword"
+            app:layout_constraintBottom_toBottomOf="@+id/textView9"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="80dp"
+            android:background="#63372C"
+            app:layout_constraintEnd_toEndOf="@+id/textView11"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
