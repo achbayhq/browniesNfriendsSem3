@@ -28,7 +28,7 @@ public class volleyRequestHandler {
     }
 
     public void loginUser(final String tlp, final ResponseListener listener) {
-        String url = "http://"+ GlobalVariable.IP +"/APIproject/login.php?function=cekTelephoneLogin&telepon=" + tlp; // Ganti dengan URL server PHP Anda.
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=cekTelephoneLogin&telepon=" + tlp; // Ganti dengan URL server PHP Anda.
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -55,7 +55,7 @@ public class volleyRequestHandler {
     }
 
     public void registerUser(final String nama, final String alamat, final String telepon, final String pertanyaan, final String jawaban, final String password, final ResponseListener listener) {
-        String url = "http://"+ GlobalVariable.IP +"/APIproject/login.php?function=register";
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=register";
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -89,7 +89,7 @@ public class volleyRequestHandler {
     }
 
     public void updateProfile(final String photo, final String nama, final String alamat, final String tlpNew, final String tlpOld, final ResponseListener listener) {
-        String url = "http://"+ GlobalVariable.IP +"/APIproject/login.php?function=updateProfile";
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=updateProfile";
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -122,7 +122,7 @@ public class volleyRequestHandler {
     }
 
     public void gantiPassword(final String password, final String tlp, final ResponseListener listener) {
-        String url = "http://"+ GlobalVariable.IP +"/APIproject/login.php?function=gantiPassword&password="+ password +"&telepon="+ tlp;
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=gantiPassword&password="+ password +"&telepon="+ tlp;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

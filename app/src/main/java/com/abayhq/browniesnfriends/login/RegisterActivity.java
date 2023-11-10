@@ -25,7 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText pass, etTelepon, etAlamat, etJawaban, etNama;
     Spinner spinnerPertanyaan;
     private Button visibilityButton;
-    private String noTlp;
+    private String noTlp, nama, alamat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +51,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         etTelepon = findViewById(R.id.tlpRegister);
         noTlp = getIntent().getStringExtra("telepon");
+        nama = getIntent().getStringExtra("nama");
+        alamat = getIntent().getStringExtra("alamat");
         if (noTlp != null){
             etTelepon.setText(noTlp);
+            etNama.setText(nama);
+            etAlamat.setText(alamat);
             etTelepon.setEnabled(false);
         }
     }

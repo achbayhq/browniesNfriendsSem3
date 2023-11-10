@@ -86,12 +86,16 @@ public class MainActivity extends AppCompatActivity {
                         if (userRespon.getCode() == 200){
                             dataUserLogin loggedUser = userRespon.getUser_list().get(0);
                             String userTelepon = loggedUser.getNo_telepon();
+                            String userNama = loggedUser.getNama();
+                            String userAlamat = loggedUser.getAlamat();
                             String userPass = loggedUser.getPassword();
 
                             if (pass.equals("")){
                                 if (userPass == null){
                                     Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                                     intent.putExtra("telepon", userTelepon);
+                                    intent.putExtra("nama", userNama);
+                                    intent.putExtra("alamat", userAlamat);
                                     startActivity(intent);
                                     finish();
                                 }else{
