@@ -17,12 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.login.MainActivity;
 import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -100,14 +102,16 @@ public class homeFragment extends Fragment {
                     if (userRespon.getCode() == 200) {
                         dataUserLogin loggedUser = userRespon.getUser_list().get(0);
                         String userName = loggedUser.getNama();
-                        String userPPbase64 = loggedUser.getPhoto_profile();
+                        String userPP = loggedUser.getPhoto_profile();
                         txtNama.setText(getString(R.string.hi)+ userName +getString(R.string.tanda_seru));
-                        if (userPPbase64.equals("")){
+                        if (userPP.equals("")){
                             photoProfile.setImageResource(R.drawable.default_pp);
                         }else{
-                            byte[] imagePP = Base64.decode(userPPbase64, Base64.DEFAULT);
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(imagePP, 0, imagePP.length);
-                            photoProfile.setImageBitmap(bitmap);
+//                            byte[] imagePP = Base64.decode(userPPbase64, Base64.DEFAULT);
+//                            Bitmap bitmap = BitmapFactory.decodeByteArray(imagePP, 0, imagePP.length);
+//                            photoProfile.setImageBitmap(bitmap);
+                            String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + userPP;
+                            Glide.with(getContext()).load(URLimage).into(photoProfile);
                         }
                     }else if (userRespon.getCode() == 404) {
                         Toast.makeText(getContext(), "User Tidak Ditemukan", Toast.LENGTH_SHORT).show();

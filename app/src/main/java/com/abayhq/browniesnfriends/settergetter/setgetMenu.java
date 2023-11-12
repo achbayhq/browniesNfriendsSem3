@@ -1,9 +1,9 @@
 package com.abayhq.browniesnfriends.settergetter;
 
 public class setgetMenu {
-    String nama, deskripsi, harga;
+    String nama, deskripsi, harga, img;
     Boolean visibility;
-    Integer qty, img;
+    Integer qty;
 
     public String getNama() {
         return nama;
@@ -45,15 +45,15 @@ public class setgetMenu {
         this.qty = qty;
     }
 
-    public Integer getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(Integer img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
-    public setgetMenu(Integer img, String nama, String des, String harga){
+    public setgetMenu(String img, String nama, String des, String harga){
         this.nama = nama;
         this.deskripsi = des;
         this.harga = harga;

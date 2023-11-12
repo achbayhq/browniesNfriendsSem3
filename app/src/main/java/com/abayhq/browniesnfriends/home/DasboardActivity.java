@@ -3,6 +3,7 @@ package com.abayhq.browniesnfriends.home;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,11 +34,17 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 public class DasboardActivity extends AppCompatActivity {
 
     AnimatedBottomBar navBar;
+
+    public CardView btnTransaksi;
+    public TextView cardItemTr, cardTotalTr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dasboard);
 
+        btnTransaksi = findViewById(R.id.cardTransaksi);
+        cardItemTr = findViewById(R.id.cardItemTransaksi);
+        cardTotalTr = findViewById(R.id.cardTotalTransaksi);
         navBar = findViewById(R.id.navBar);
         replaceFragment(new homeFragment());
 

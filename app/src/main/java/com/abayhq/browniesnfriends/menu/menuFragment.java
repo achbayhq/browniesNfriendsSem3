@@ -9,19 +9,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.adapter.adapterMenuUtama;
+import com.abayhq.browniesnfriends.home.DasboardActivity;
+import com.abayhq.browniesnfriends.login.MainActivity;
+import com.abayhq.browniesnfriends.respons.dataBarangRespons;
+import com.abayhq.browniesnfriends.respons.userLoginRespons;
+import com.abayhq.browniesnfriends.settergetter.dataBarang;
+import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
+import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link menuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class menuFragment extends Fragment implements  adapterMenuUtama.penandaOnClickListener{
+public class menuFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,45 +80,77 @@ public class menuFragment extends Fragment implements  adapterMenuUtama.penandaO
     private RecyclerView recyclerView;
     private adapterMenuUtama adapter;
     private ArrayList<setgetMenu> menuArrayList;
+    private ArrayList<setgetMenu> transaksiList = new ArrayList<>();
+    private int totalHarga = 0;
+    private int item = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        addMenu();
+        getDataBarang();
         recyclerView = root.findViewById(R.id.menuUtama);
         adapter = new adapterMenuUtama(menuArrayList,getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        adapter.setBeliOnClickListener(new adapterMenuUtama.beliOnClickListener() {
+            @Override
+            public void beliOnClick(int position) {
+                setgetMenu selectedItem = menuArrayList.get(position);
+                transaksiList.add(selectedItem);
+                int harga = selectedItem.getQty() * Integer.parseInt(selectedItem.getHarga());
+                totalHarga += harga;
+                item += 1;
+
+                DasboardActivity dass = (DasboardActivity) getActivity();
+                if (dass != null) {
+                    if (item >= 1) {
+                        dass.btnTransaksi.setVisibility(View.VISIBLE);
+                        dass.cardTotalTr.setText(String.valueOf(harga));
+                        dass.cardItemTr.setText(String.valueOf(item));
+                    }
+                }
+            }
+        });
+
+
         return root;
     }
 
-    void addMenu(){
+    void getDataBarang(){
         menuArrayList = new ArrayList<>();
-        menuArrayList.add(new setgetMenu(R.drawable.menu_a, "Menu A", "Kue A ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 10.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_b, "Menu B", "Kue B ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_c, "Menu C", "Kue C ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 12.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_d, "Menu D", "Kue D ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 14.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_a, "Menu E", "Kue E ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_b, "Menu F", "Kue F ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 16.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_c, "Menu G", "Kue G ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 17.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_d, "Menu H", "Kue H ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 18.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_d, "Menu I", "Kue I ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 10.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_c, "Menu J", "Kue J ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_b, "Menu K", "Kue K ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 12.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_a, "Menu L", "Kue L ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 14.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_a, "Menu M", "Kue M ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 15.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_b, "Menu N", "Kue N ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 16.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_c, "Menu O", "Kue O ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 17.000"));
-        menuArrayList.add(new setgetMenu(R.drawable.menu_d, "Menu P", "Kue P ini adalah seperti ini dan ini lalu rasanya seperti ini pokoknya ini banget", "Rp. 18.000"));
+        Gson gson = new Gson();
+
+        volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
+        volleyRequestHandler.getBarang(new volleyRequestHandler.ResponseListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dataBarangRespons dataRespon = gson.fromJson(response.toString(), dataBarangRespons.class);
+                if (dataRespon.getCode() == 200) {
+                    List<dataBarang> barangList = dataRespon.getBarang_list();
+
+                    for (dataBarang dataBarang : barangList) {
+                        String image = dataBarang.getImage_barang();
+                        String nama = dataBarang.getNama_barang();
+                        String harga = dataBarang.getHarga_jual();
+                        String deskripsi = dataBarang.getDeskripsi();
+                        String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + image;
+
+                        menuArrayList.add(new setgetMenu(URLimage, nama, deskripsi, harga));
+                    }
+                    adapter.notifyDataSetChanged();
+                }else if (dataRespon.getCode() == 404) {
+                    Toast.makeText(getContext(), "Data Tidak Ditemukan", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 
-    @Override
-    public void penandaOnClick(int position) {
-        //function untuk button penanda
-
-    }
 }

@@ -30,6 +30,7 @@ android {
 
 dependencies {
 
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.github.dhaval2404:imagepicker:2.1")
     implementation("com.android.volley:volley:1.2.1")
     implementation ("com.google.code.gson:gson:2.10.1")

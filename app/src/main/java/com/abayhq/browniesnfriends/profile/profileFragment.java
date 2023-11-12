@@ -27,12 +27,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.login.MainActivity;
 import com.abayhq.browniesnfriends.login.RegisterActivity;
 import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
+import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.Gson;
 
@@ -173,7 +175,7 @@ public class profileFragment extends Fragment {
             public void onClick(View v) {
                 ImagePicker.with(requireActivity())
                         .crop()
-                        .compress(30)
+                        .compress(1024)
                         .galleryOnly()
                         .createIntent(new Function1<Intent, Unit>() {
                             @Override
@@ -228,17 +230,19 @@ public class profileFragment extends Fragment {
                     String userName = loggedUser.getNama();
                     String userTelepon = loggedUser.getNo_telepon();
                     String userAlamat = loggedUser.getAlamat();
-                    String userPPbase64 = loggedUser.getPhoto_profile();
+                    String userPP = loggedUser.getPhoto_profile();
                     txtSubNama.setText(getString(R.string.hi)+userName);
                     etNama.setText(userName);
                     etTelepon.setText(userTelepon);
                     etAlamat.setText(userAlamat);
-                    if (userPPbase64.equals("")){
+                    if (userPP.equals("")){
                         imgPP.setImageResource(R.drawable.default_pp);
                     }else{
-                        imgByteArray = Base64.decode(userPPbase64, Base64.DEFAULT);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(imgByteArray, 0, imgByteArray.length);
-                        imgPP.setImageBitmap(bitmap);
+//                        imgByteArray = Base64.decode(userPP, Base64.DEFAULT);
+//                        Bitmap bitmap = BitmapFactory.decodeByteArray(imgByteArray, 0, imgByteArray.length);
+//                        imgPP.setImageBitmap(bitmap);
+                        String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + userPP;
+                        Glide.with(getContext()).load(URLimage).into(imgPP);
                     }
                 }else if (userRespon.getCode() == 404) {
                     Toast.makeText(getContext(), "User Tidak Ditemukan", Toast.LENGTH_SHORT).show();

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -21,10 +22,13 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
 
     private ArrayList<setgetMenu> menunya;
     private Context context;
-    private penandaOnClickListener penandaOnClickListener;
+    private beliOnClickListener beliOnClickListener;
 
-    public interface penandaOnClickListener {
-        void penandaOnClick(int position);
+    public void setBeliOnClickListener(beliOnClickListener listener) {
+        this.beliOnClickListener = listener;
+    }
+    public interface beliOnClickListener {
+        void beliOnClick(int position);
     }
     public adapterMenuUtama(ArrayList<setgetMenu> menu, Context context) { //CATATAN(sepertinya udh Solve) : skrng masih pake EditText buat qty dan kalo input manual pake keyboard maka nilai dalam editText ngga bisa kedeteksi soalnya skrng pake settergetter jadi kalo input manual ngga bisa ke set, bisanya cuma pake button + soalnya langsung ke set qty nya ke setter getter
         this.menunya = menu;
@@ -41,10 +45,9 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
 
     @Override
     public void onBindViewHolder(@NonNull adapterMenuUtama.ViewHolder holder, int position) {
-
         setgetMenu menu = menunya.get(position);
 
-        holder.Img.setImageResource(menu.getImg());
+        Glide.with(context).load(menu.getImg()).into(holder.Img);   //ini buat nampilin gambar dari database
         holder.namaKue.setText(menu.getNama());
         holder.desKue.setText(menu.getDeskripsi());
         holder.hargaKue.setText(String.valueOf(menu.getHarga()));
@@ -80,6 +83,7 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
                 holder.btnTambah.setVisibility(View.GONE);
                 holder.btnKurang.setVisibility(View.GONE);
                 holder.qty.setVisibility(View.GONE);
+                menu.setVisibility(false);
             }
         });
 
@@ -87,13 +91,11 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
             menu.setQty(1);
             menu.setVisibility(true);
             notifyDataSetChanged(); // Refresh the view to update the button visibility
-        });
-
-        holder.btnPenanda.setOnClickListener(view -> {
-            if (penandaOnClickListener != null) {
-                penandaOnClickListener.penandaOnClick(position);
+            if (beliOnClickListener != null) {
+                beliOnClickListener.beliOnClick(position);
             }
         });
+
     }
 
     @Override
