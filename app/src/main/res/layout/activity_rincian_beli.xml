@@ -142,7 +142,7 @@
                 app:srcCompat="@drawable/logo_jam" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/jamAmbil"
                 android:layout_width="110dp"
                 android:layout_height="39dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView14"
@@ -245,7 +245,7 @@
                 app:layout_constraintVertical_bias="0.444" />
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/txtGrandTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
@@ -265,6 +265,7 @@
         android:layout_height="52dp"
         android:layout_marginTop="10dp"
         android:text="LANJUT PEMBAYARAN"
+        android:onClick="lanjutPembayaran"
         android:backgroundTint="@color/brownButton"
         app:layout_constraintEnd_toEndOf="@+id/cardView13"
         app:layout_constraintHorizontal_bias="0.498"

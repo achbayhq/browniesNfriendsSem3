@@ -7,8 +7,12 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,15 +23,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.abayhq.browniesnfriends.R;
+import com.abayhq.browniesnfriends.databasesqlite.dbTransaksiHelper;
 import com.abayhq.browniesnfriends.menu.menuFragment;
 import com.abayhq.browniesnfriends.pesanan.tabPesananFragment;
 import com.abayhq.browniesnfriends.profile.profileFragment;
 import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
+import com.abayhq.browniesnfriends.settergetter.setgetMenu;
+import com.abayhq.browniesnfriends.transaksi.rincianBeliActivity;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
@@ -36,7 +45,8 @@ public class DasboardActivity extends AppCompatActivity {
     AnimatedBottomBar navBar;
 
     public CardView btnTransaksi;
-    public TextView cardItemTr, cardTotalTr;
+    public TextView cardItemTr;
+    String cekFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,22 +54,22 @@ public class DasboardActivity extends AppCompatActivity {
 
         btnTransaksi = findViewById(R.id.cardTransaksi);
         cardItemTr = findViewById(R.id.cardItemTransaksi);
-        cardTotalTr = findViewById(R.id.cardTotalTransaksi);
         navBar = findViewById(R.id.navBar);
-        replaceFragment(new homeFragment());
-
+        replaceFragment(new homeFragment(), "pesanan");
         navBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
             public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NonNull AnimatedBottomBar.Tab tab1) {
                 if (tab1.getId() == R.id.home){
-
-                    replaceFragment(new homeFragment());
+                    replaceFragment(new homeFragment(), "home");
+                    btnTransaksi.setVisibility(View.GONE);
                 } else if (tab1.getId() == R.id.menu) {
-                    replaceFragment(new menuFragment());
+                    replaceFragment(new menuFragment(), "menu");
                 } else if (tab1.getId() == R.id.profile) {
-                    replaceFragment(new profileFragment());
+                    replaceFragment(new profileFragment(), "profile");
+                    btnTransaksi.setVisibility(View.GONE);
                 } else if (tab1.getId() == R.id.pesanan) {
-                    replaceFragment(new tabPesananFragment());
+                    replaceFragment(new tabPesananFragment(), "pesanan");
+                    btnTransaksi.setVisibility(View.GONE);
                 }
             }
 
@@ -71,9 +81,40 @@ public class DasboardActivity extends AppCompatActivity {
 
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void lanjutTransaksi(){
+        menuFragment fragment = (menuFragment) getSupportFragmentManager().findFragmentByTag("menu");
+        ArrayList<setgetMenu> transaksiList = fragment.transaksiList;
+
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        for (setgetMenu menu : transaksiList){
+            ContentValues values = new ContentValues();
+            values.put("img", menu.getImg());
+            values.put("id_barang", menu.getId());
+            values.put("nama_kue", menu.getNama());
+            values.put("harga", menu.getHarga());
+            values.put("qty", menu.getQty());
+            values.put("total", menu.getQty() * Integer.parseInt(menu.getHarga()));
+
+            try {
+                long newRowId = db.insert("list_transaksi", null, values);
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        db.close();
+    }
+
+    private void replaceFragment(Fragment fragment, String tag){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.forFragment, fragment);
+        transaction.replace(R.id.forFragment, fragment, tag);
         transaction.commit();
+    }
+
+    public void btnTransaksi(View view) {
+        lanjutTransaksi();
+        Intent intent = new Intent(DasboardActivity.this, rincianBeliActivity.class);
+        startActivity(intent);
     }
 }

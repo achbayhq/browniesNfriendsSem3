@@ -23,13 +23,20 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
     private ArrayList<setgetMenu> menunya;
     private Context context;
     private beliOnClickListener beliOnClickListener;
-
+    private kurangOnClickListener kurangOnClickListener;
+    public void setKurangOnClickListener(kurangOnClickListener listener) {
+        this.kurangOnClickListener = listener;
+    }
     public void setBeliOnClickListener(beliOnClickListener listener) {
         this.beliOnClickListener = listener;
     }
     public interface beliOnClickListener {
         void beliOnClick(int position);
     }
+    public interface kurangOnClickListener {
+        void kurangOnClick(int position);
+    }
+
     public adapterMenuUtama(ArrayList<setgetMenu> menu, Context context) { //CATATAN(sepertinya udh Solve) : skrng masih pake EditText buat qty dan kalo input manual pake keyboard maka nilai dalam editText ngga bisa kedeteksi soalnya skrng pake settergetter jadi kalo input manual ngga bisa ke set, bisanya cuma pake button + soalnya langsung ke set qty nya ke setter getter
         this.menunya = menu;
         this.context = context;
@@ -70,6 +77,7 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
             int quantity = Integer.parseInt(txtQty);
             menu.setQty(quantity + 1);
             holder.qty.setText(String.valueOf(menu.getQty()));
+
         });
 
         holder.btnKurang.setOnClickListener(view -> {
@@ -78,12 +86,17 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
             if (quantity > 0) {
                 menu.setQty(quantity - 1);
                 holder.qty.setText(String.valueOf(menu.getQty()));
+
             } else if (quantity == 0) {
                 holder.btnBeli.setVisibility(View.VISIBLE);
                 holder.btnTambah.setVisibility(View.GONE);
                 holder.btnKurang.setVisibility(View.GONE);
                 holder.qty.setVisibility(View.GONE);
                 menu.setVisibility(false);
+
+                if (kurangOnClickListener != null) {
+                    kurangOnClickListener.kurangOnClick(position);
+                }
             }
         });
 

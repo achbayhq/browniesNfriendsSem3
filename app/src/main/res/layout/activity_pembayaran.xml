@@ -88,7 +88,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/txtGrandTotalBayar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="500.000"
@@ -256,7 +256,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/txtBayar"
         android:layout_width="365dp"
         android:layout_height="55dp"
         android:layout_marginTop="6dp"
@@ -285,18 +285,16 @@
         app:iconPadding="2dp"
         app:iconSize="25dp"
         app:iconTint="@color/basePutih"
-        app:layout_constraintEnd_toEndOf="@+id/editTextText"
+        app:layout_constraintEnd_toEndOf="@+id/txtBayar"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextText"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintStart_toStartOf="@+id/txtBayar"
+        app:layout_constraintTop_toBottomOf="@+id/txtBayar" />
 
-    <TextView
-        android:id="@+id/textView32"
-        android:layout_width="140dp"
-        android:layout_height="20dp"
+    <ImageView
+        android:id="@+id/imgBuktiConfirm"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/poppins"
         app:layout_constraintBottom_toBottomOf="@+id/btnUpload"
         app:layout_constraintEnd_toStartOf="@+id/btnUpload"
         app:layout_constraintTop_toTopOf="@+id/btnUpload"
@@ -310,6 +308,7 @@
         android:text="Pesan"
         android:fontFamily="@font/poppins_medium"
         android:textSize="21dp"
+        android:onClick="submitTransaksi"
         android:backgroundTint="@color/brownButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

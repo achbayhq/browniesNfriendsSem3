@@ -162,4 +162,72 @@ public class volleyRequestHandler {
                 });
         requestQueue.add(request);
     }
+
+    public void transaksi(final Integer grandTotal, final Integer bayar, final Integer kembalian, final Integer kurangBayar, final String statusBayar, final String tlp, final String tanggalAmbil, final String jam, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=transaksi";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("grand_total", grandTotal);
+            jsonObject.put("dibayarkan", bayar);
+            jsonObject.put("kembalian", kembalian);
+            jsonObject.put("kurang_bayar", kurangBayar);
+            jsonObject.put("status_bayar", statusBayar);
+            jsonObject.put("tlp", tlp);
+            jsonObject.put("tanggal_ambil", tanggalAmbil);
+            jsonObject.put("jam", jam);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+
+        requestQueue.add(request);
+    }
+
+    public void listBarangTr(final String no_nota, final String id_barang, final Integer qty, final Integer total, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=barangTransaksi";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("no_nota", no_nota);
+            jsonObject.put("id_barang", id_barang);
+            jsonObject.put("qty", qty);
+            jsonObject.put("total", total);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+
+        requestQueue.add(request);
+    }
 }

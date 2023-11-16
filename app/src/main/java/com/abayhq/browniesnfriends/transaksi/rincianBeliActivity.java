@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,9 +15,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.adapter.adapterRincianBeli;
+import com.abayhq.browniesnfriends.databasesqlite.dbTransaksiHelper;
 import com.abayhq.browniesnfriends.settergetter.setgetRincianBeli;
 
 import java.text.SimpleDateFormat;
@@ -26,15 +31,19 @@ public class rincianBeliActivity extends AppCompatActivity {
 
     Calendar myCalendar;
     EditText txtTgl;
+    Spinner jamSpinner;
+    TextView txtGrandTotal;
     private RecyclerView recyclerView;
     private adapterRincianBeli adapterRecycle;
     private ArrayList<setgetRincianBeli> beliArrayList;
+    Integer grandTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rincian_beli);
 
         myCalendar = Calendar.getInstance();
+        txtGrandTotal = findViewById(R.id.txtGrandTotal);
         txtTgl = findViewById(R.id.tanggalAmbil);
         ImageView btnTgl = findViewById(R.id.imageView13);
         DatePickerDialog.OnDateSetListener date=new DatePickerDialog.OnDateSetListener() {
@@ -56,7 +65,7 @@ public class rincianBeliActivity extends AppCompatActivity {
                     myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
         });
 
-        Spinner spinner = findViewById(R.id.spinner2);
+        jamSpinner = findViewById(R.id.jamAmbil);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item);
         adapter.add("Jam Ambil");
@@ -65,9 +74,11 @@ public class rincianBeliActivity extends AppCompatActivity {
         adapter.add("12.00 - 14.00");
         adapter.add("14.00 - 16.00");
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        jamSpinner.setAdapter(adapter);
 
-        dibeli();
+        listBeli();
+        getGrandTotal();
+        txtGrandTotal.setText(String.valueOf(grandTotal));
         recyclerView = findViewById(R.id.recyclerView);
         adapterRecycle = new adapterRincianBeli(beliArrayList, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -75,22 +86,54 @@ public class rincianBeliActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapterRecycle);
     }
 
-    void dibeli(){
+    void listBeli(){
         beliArrayList = new ArrayList<>();
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_a, "Menu A", "10.000", 50));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_b, "Menu B", "12.000", 35));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_c, "Menu C", "15.000", 20));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_d, "Menu D", "11.000", 55));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_b, "Menu B", "13.000", 45));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_c, "Menu C", "9.000", 65));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_a, "Menu A", "16.000", 30));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_d, "Menu D", "10.000", 55));
-        beliArrayList.add(new setgetRincianBeli(R.drawable.menu_a, "Menu A", "14.000", 60));
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                "list_transaksi",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        while (cursor.moveToNext()) {
+            String img = cursor.getString(cursor.getColumnIndexOrThrow("img"));
+            String nama = cursor.getString(cursor.getColumnIndexOrThrow("nama_kue"));
+            Integer harga = cursor.getInt(cursor.getColumnIndexOrThrow("harga"));
+            Integer qty = cursor.getInt(cursor.getColumnIndexOrThrow("qty"));
+            beliArrayList.add(new setgetRincianBeli(img, nama, String.valueOf(harga), qty));
+        }
+        cursor.close();
     }
+
+    private void getGrandTotal(){
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT SUM(total) AS grand_total FROM list_transaksi";
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.moveToFirst()) {
+            grandTotal = cursor.getInt(cursor.getColumnIndexOrThrow("grand_total"));
+        }
+        cursor.close();
+        db.close();
+    }
+
     private void updateLabel(){
-        String myFormat = "dd MMMM yyyy";
+        String myFormat = "yyyy-MM-dd";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         txtTgl.setText(dateFormat.format(myCalendar.getTime()));
     }
 
+    public void lanjutPembayaran(View view) {
+        String tanggal = txtTgl.getText().toString();
+        String jam = jamSpinner.getSelectedItem().toString();
+        Intent intent = new Intent(rincianBeliActivity.this, PembayaranActivity.class);
+        intent.putExtra("tanggal_transaksi", tanggal);
+        intent.putExtra("jam_transaksi", jam);
+        startActivity(intent);
+    }
 }

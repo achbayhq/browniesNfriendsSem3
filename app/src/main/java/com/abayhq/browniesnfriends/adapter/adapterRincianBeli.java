@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.settergetter.setgetRincianBeli;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class adapterRincianBeli extends RecyclerView.Adapter<adapterRincianBeli.
 
         setgetRincianBeli menu = dibeli.get(position);
 
-        holder.Img.setImageResource(menu.getImg());
+        Glide.with(context).load(menu.getImg()).into(holder.Img);
         holder.namaKue.setText(menu.getNama());
         holder.hargaKue.setText(String.valueOf(menu.getHarga()));
         holder.qty.setText(String.valueOf(menu.getQty()));

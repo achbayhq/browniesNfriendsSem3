@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.adapter.adapterMenuUtama;
 import com.abayhq.browniesnfriends.home.DasboardActivity;
 import com.abayhq.browniesnfriends.login.MainActivity;
+import com.abayhq.browniesnfriends.login.RegisterActivity;
 import com.abayhq.browniesnfriends.respons.dataBarangRespons;
 import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataBarang;
@@ -80,8 +82,10 @@ public class menuFragment extends Fragment{
     private RecyclerView recyclerView;
     private adapterMenuUtama adapter;
     private ArrayList<setgetMenu> menuArrayList;
-    private ArrayList<setgetMenu> transaksiList = new ArrayList<>();
-    private int totalHarga = 0;
+    public ArrayList<setgetMenu> transaksiList = new ArrayList<>();
+    public ArrayList<setgetMenu> getTransaksiList() {
+        return transaksiList;
+    }
     private int item = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,27 +99,40 @@ public class menuFragment extends Fragment{
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        DasboardActivity dass = (DasboardActivity) getActivity();
 
         adapter.setBeliOnClickListener(new adapterMenuUtama.beliOnClickListener() {
             @Override
             public void beliOnClick(int position) {
                 setgetMenu selectedItem = menuArrayList.get(position);
                 transaksiList.add(selectedItem);
-                int harga = selectedItem.getQty() * Integer.parseInt(selectedItem.getHarga());
-                totalHarga += harga;
                 item += 1;
 
-                DasboardActivity dass = (DasboardActivity) getActivity();
                 if (dass != null) {
                     if (item >= 1) {
                         dass.btnTransaksi.setVisibility(View.VISIBLE);
-                        dass.cardTotalTr.setText(String.valueOf(harga));
                         dass.cardItemTr.setText(String.valueOf(item));
                     }
                 }
             }
         });
 
+        adapter.setKurangOnClickListener(new adapterMenuUtama.kurangOnClickListener() {
+            @Override
+            public void kurangOnClick(int position) {
+                item -= 1;
+
+                if (dass != null) {
+                    if (item >=1) {
+                        dass.btnTransaksi.setVisibility(View.VISIBLE);
+                        dass.cardItemTr.setText(String.valueOf(item));
+                    }else{
+                        dass.btnTransaksi.setVisibility(View.GONE);
+                        dass.cardItemTr.setText(String.valueOf(item));
+                    }
+                }
+            }
+        });
 
         return root;
     }
@@ -133,13 +150,14 @@ public class menuFragment extends Fragment{
                     List<dataBarang> barangList = dataRespon.getBarang_list();
 
                     for (dataBarang dataBarang : barangList) {
+                        String id = dataBarang.getId_barang();
                         String image = dataBarang.getImage_barang();
                         String nama = dataBarang.getNama_barang();
                         String harga = dataBarang.getHarga_jual();
                         String deskripsi = dataBarang.getDeskripsi();
                         String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + image;
 
-                        menuArrayList.add(new setgetMenu(URLimage, nama, deskripsi, harga));
+                        menuArrayList.add(new setgetMenu(URLimage, id, nama, deskripsi, harga));
                     }
                     adapter.notifyDataSetChanged();
                 }else if (dataRespon.getCode() == 404) {
@@ -148,7 +166,8 @@ public class menuFragment extends Fragment{
             }
             @Override
             public void onError(String error) {
-
+                Toast.makeText(getContext(), error , Toast.LENGTH_SHORT).show();
+                Log.e("err Menu Fragment", error);
             }
         });
     }

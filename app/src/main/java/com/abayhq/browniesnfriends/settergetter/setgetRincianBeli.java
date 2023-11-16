@@ -1,10 +1,10 @@
 package com.abayhq.browniesnfriends.settergetter;
 
 public class setgetRincianBeli {
-    String nama, harga;
-    Integer qty, img;
+    String nama, harga, img;
+    Integer qty;
 
-    public setgetRincianBeli(Integer img, String nama, String harga, Integer qty){
+    public setgetRincianBeli(String img, String nama, String harga, Integer qty){
         this.nama = nama;
         this.harga = harga;
         this.qty = qty;
@@ -34,11 +34,11 @@ public class setgetRincianBeli {
         this.qty = qty;
     }
 
-    public Integer getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(Integer img) {
+    public void setImg(String img) {
         this.img = img;
     }
 }
