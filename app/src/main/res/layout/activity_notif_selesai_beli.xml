@@ -48,8 +48,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
     <TextView
-        android:id="@+id/textView34"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtTanggalNow"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginStart="-35dp"
@@ -58,13 +58,13 @@
         android:fontFamily="@font/poppins"
         android:textSize="16dp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/textView35"
+        app:layout_constraintEnd_toEndOf="@+id/txtGrandTotalNotif"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/statusTr"
         app:layout_constraintTop_toBottomOf="@+id/statusTr" />
 
     <TextView
-        android:id="@+id/textView35"
+        android:id="@+id/txtGrandTotalNotif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -78,8 +78,8 @@
         app:layout_constraintTop_toTopOf="@+id/statusTr" />
 
     <TextView
-        android:id="@+id/textView36"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtJamNow"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="01.23 "
@@ -87,9 +87,9 @@
         android:fontFamily="@font/poppins"
         android:textSize="17dp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/textView34"
-        app:layout_constraintStart_toEndOf="@+id/textView34"
-        app:layout_constraintTop_toTopOf="@+id/textView34"
+        app:layout_constraintBottom_toBottomOf="@+id/txtTanggalNow"
+        app:layout_constraintStart_toEndOf="@+id/txtTanggalNow"
+        app:layout_constraintTop_toTopOf="@+id/txtTanggalNow"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -101,9 +101,9 @@
         android:fontFamily="@font/poppins"
         android:textSize="17dp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/textView36"
-        app:layout_constraintStart_toEndOf="@+id/textView36"
-        app:layout_constraintTop_toTopOf="@+id/textView36" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtJamNow"
+        app:layout_constraintStart_toEndOf="@+id/txtJamNow"
+        app:layout_constraintTop_toTopOf="@+id/txtJamNow" />
 
     <TextView
         android:id="@+id/textView38"
@@ -117,8 +117,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textView37"
         app:layout_constraintHorizontal_bias="0.634"
-        app:layout_constraintStart_toStartOf="@+id/textView34"
-        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+        app:layout_constraintStart_toStartOf="@+id/txtTanggalNow"
+        app:layout_constraintTop_toBottomOf="@+id/txtTanggalNow" />
 
     <ImageView
         android:id="@+id/imageView16"

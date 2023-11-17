@@ -2,22 +2,22 @@ package com.abayhq.browniesnfriends.settergetter;
 
 public class setgetPesanan {
 
-    String tgl, status, harga;
+    String tanggal_pengambilan, status, grand_total;
     int imgStatus;
 
-    public setgetPesanan(String tgl, String status, int imgStatus, String harga) {
-        this.tgl = tgl;
+    public setgetPesanan(String tanggal_pengambilan, String status, int imgStatus, String grand_total) {
+        this.tanggal_pengambilan = tanggal_pengambilan;
         this.status = status;
-        this.harga = harga;
+        this.grand_total = grand_total;
         this.imgStatus = imgStatus;
     }
 
-    public String getTgl() {
-        return tgl;
+    public String getTanggal_pengambilan() {
+        return tanggal_pengambilan;
     }
 
-    public void setTgl(String tgl) {
-        this.tgl = tgl;
+    public void setTanggal_pengambilan(String tanggal_pengambilan) {
+        this.tanggal_pengambilan = tanggal_pengambilan;
     }
 
     public String getStatus() {
@@ -28,12 +28,12 @@ public class setgetPesanan {
         this.status = status;
     }
 
-    public String getHarga() {
-        return harga;
+    public String getGrand_total() {
+        return grand_total;
     }
 
-    public void setHarga(String harga) {
-        this.harga = harga;
+    public void setGrand_total(String grand_total) {
+        this.grand_total = grand_total;
     }
 
     public int getImgStatus() {

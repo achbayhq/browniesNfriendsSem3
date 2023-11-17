@@ -230,4 +230,67 @@ public class volleyRequestHandler {
 
         requestQueue.add(request);
     }
+
+    public void pesananTerjadwal(final String tlp, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=riwayatPesanTerjadwal&telepon=" + tlp;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
+    public void pesananProses(final String tlp, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=riwayatPesanProses&telepon=" + tlp;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
+    public void pesananRiwayat(final String tlp, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=riwayatPesanRiwayat&telepon=" + tlp;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
 }

@@ -41,9 +41,9 @@ public class adapterPesananProses extends RecyclerView.Adapter<adapterPesananPro
         setgetPesanan pesan = prosesPesan.get(position);
 
         holder.Img.setImageResource(pesan.getImgStatus());
-        holder.txtTgl.setText(pesan.getTgl());
+        holder.txtTgl.setText(pesan.getTanggal_pengambilan());
         holder.txtStatus.setText(pesan.getStatus());
-        holder.txtHarga.setText(pesan.getHarga());
+        holder.txtHarga.setText(pesan.getGrand_total());
     }
 
     @Override

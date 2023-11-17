@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.adapter.adapterRincianBeli;
@@ -84,6 +86,53 @@ public class rincianBeliActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapterRecycle);
+
+        adapterRecycle.setKurangOnClickListener(new adapterRincianBeli.kurangOnClickListener() {
+            @Override
+            public void kurangOnClick(int position) {
+                setgetRincianBeli getData = beliArrayList.get(position);
+                dbTransaksiHelper dbHelper = new dbTransaksiHelper(rincianBeliActivity.this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+                values.put("qty", getData.getQty());
+
+                String whereClause = "nama_kue = ?";
+                String[] whereArgs = {getData.getNama()};
+
+                int numRowsUpdated = db.update("list_transaksi", values, whereClause, whereArgs);
+
+                if (numRowsUpdated > 0) {
+                    getGrandTotal();
+                } else {
+                    Toast.makeText(rincianBeliActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
+                }
+                db.close();
+            }
+        });
+        adapterRecycle.setTambahOnClickListener(new adapterRincianBeli.tambahOnClickListener() {
+            @Override
+            public void tambahOnClick(int position) {
+                setgetRincianBeli getData = beliArrayList.get(position);
+                dbTransaksiHelper dbHelper = new dbTransaksiHelper(rincianBeliActivity.this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+                values.put("qty", getData.getQty());
+
+                String whereClause = "nama_kue = ?";
+                String[] whereArgs = {getData.getNama()};
+
+                int numRowsUpdated = db.update("list_transaksi", values, whereClause, whereArgs);
+
+                if (numRowsUpdated > 0) {
+                    getGrandTotal();
+                } else {
+                    Toast.makeText(rincianBeliActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
+                }
+                db.close();
+            }
+        });
     }
 
     void listBeli(){
@@ -136,4 +185,5 @@ public class rincianBeliActivity extends AppCompatActivity {
         intent.putExtra("jam_transaksi", jam);
         startActivity(intent);
     }
+
 }

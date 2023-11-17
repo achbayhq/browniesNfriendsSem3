@@ -172,8 +172,8 @@
                 android:layout_width="145dp"
                 android:layout_height="1dp"
                 android:background="@color/black"
-                app:layout_constraintBottom_toTopOf="@+id/spinner2"
-                app:layout_constraintEnd_toEndOf="@+id/spinner2"
+                app:layout_constraintBottom_toTopOf="@+id/jamAmbil"
+                app:layout_constraintEnd_toEndOf="@+id/jamAmbil"
                 app:layout_constraintStart_toStartOf="@+id/imageView14" />
 
             <View
@@ -181,9 +181,9 @@
                 android:layout_width="145dp"
                 android:layout_height="1dp"
                 android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/spinner2"
+                app:layout_constraintEnd_toEndOf="@+id/jamAmbil"
                 app:layout_constraintStart_toStartOf="@+id/imageView14"
-                app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+                app:layout_constraintTop_toBottomOf="@+id/jamAmbil" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

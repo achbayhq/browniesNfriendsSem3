@@ -114,6 +114,8 @@ public class PembayaranActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         Intent intent = new Intent(PembayaranActivity.this, notifSelesaiBeliActivity.class);
+                                        intent.putExtra("grand_total", grandTotal);
+                                        intent.putExtra("status", status_bayar);
                                         startActivity(intent);
                                     }
 

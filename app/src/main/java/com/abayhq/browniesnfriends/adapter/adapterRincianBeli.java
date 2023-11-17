@@ -22,6 +22,21 @@ public class adapterRincianBeli extends RecyclerView.Adapter<adapterRincianBeli.
 
     private ArrayList<setgetRincianBeli> dibeli;
     private Context context;
+    private adapterRincianBeli.kurangOnClickListener kurangOnClickListener;
+    private adapterRincianBeli.tambahOnClickListener tambahOnClickListener;
+
+    public void setKurangOnClickListener(kurangOnClickListener listener) {
+        this.kurangOnClickListener = listener;
+    }
+    public void setTambahOnClickListener(tambahOnClickListener listener) {
+        this.tambahOnClickListener = listener;
+    }
+    public interface kurangOnClickListener {
+        void kurangOnClick(int position);
+    }
+    public interface tambahOnClickListener {
+        void tambahOnClick(int position);
+    }
     public adapterRincianBeli(ArrayList<setgetRincianBeli> beli, Context context) {
         this.dibeli = beli;
         this.context = context;
@@ -50,6 +65,9 @@ public class adapterRincianBeli extends RecyclerView.Adapter<adapterRincianBeli.
             int quantity = Integer.parseInt(txtQty);
             menu.setQty(quantity + 1);
             holder.qty.setText(String.valueOf(menu.getQty()));
+            if (tambahOnClickListener != null) {
+                tambahOnClickListener.tambahOnClick(position);
+            }
         });
 
         holder.btnKurang.setOnClickListener(view -> {
@@ -58,6 +76,10 @@ public class adapterRincianBeli extends RecyclerView.Adapter<adapterRincianBeli.
             if (quantity > 0) {
                 menu.setQty(quantity - 1);
                 holder.qty.setText(String.valueOf(menu.getQty()));
+
+                if (kurangOnClickListener != null) {
+                    kurangOnClickListener.kurangOnClick(position);
+                }
             }
         });
     }
