@@ -9,4 +9,11 @@
     <string name="tanda_seru">!</string>
     <string name="save_profile">Save Profile</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="pembayaran_tunai"> Pembayaran dengan uang tunai\n <b>Hanya langsung di toko</b>
+        </string>
+    <string name="pembayaran_tf"> Pembayaran melalui transfer\n <b>Pilih rekening di bawah ini</b>
+        </string>
+    <string name="total_pemba">
+Total Pembayaran
+</string>
 </resources>
