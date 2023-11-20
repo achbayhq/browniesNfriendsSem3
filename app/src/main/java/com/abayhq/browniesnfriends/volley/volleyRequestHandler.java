@@ -163,11 +163,12 @@ public class volleyRequestHandler {
         requestQueue.add(request);
     }
 
-    public void transaksi(final Integer grandTotal, final Integer bayar, final Integer kembalian, final Integer kurangBayar, final String statusBayar, final String tlp, final String tanggalAmbil, final String jam, final ResponseListener listener) {
+    public void transaksi(final String imgBukti,final Integer grandTotal, final Integer bayar, final Integer kembalian, final Integer kurangBayar, final String statusBayar, final String tlp, final String tanggalAmbil, final String jam, final ResponseListener listener) {
         String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=transaksi";
 
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("image_bukti", imgBukti);
             jsonObject.put("grand_total", grandTotal);
             jsonObject.put("dibayarkan", bayar);
             jsonObject.put("kembalian", kembalian);

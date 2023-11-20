@@ -37,6 +37,12 @@ public class adapterRincianBeli extends RecyclerView.Adapter<adapterRincianBeli.
     public interface tambahOnClickListener {
         void tambahOnClick(int position);
     }
+    public void removeItem(int position) {
+        dibeli.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, dibeli.size());
+    }
+
     public adapterRincianBeli(ArrayList<setgetRincianBeli> beli, Context context) {
         this.dibeli = beli;
         this.context = context;

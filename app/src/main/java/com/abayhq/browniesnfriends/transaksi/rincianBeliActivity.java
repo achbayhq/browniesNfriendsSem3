@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -94,20 +95,39 @@ public class rincianBeliActivity extends AppCompatActivity {
                 dbTransaksiHelper dbHelper = new dbTransaksiHelper(rincianBeliActivity.this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-                ContentValues values = new ContentValues();
-                values.put("qty", getData.getQty());
+                int cekQty = getData.getQty();
+                if (cekQty != 0) {
+                    ContentValues values = new ContentValues();
+                    values.put("qty", getData.getQty());
+                    values.put("total", getData.getQty() * Integer.parseInt(getData.getHarga()));
 
-                String whereClause = "nama_kue = ?";
-                String[] whereArgs = {getData.getNama()};
+                    String whereClause = "nama_kue = ?";
+                    String[] whereArgs = {getData.getNama()};
 
-                int numRowsUpdated = db.update("list_transaksi", values, whereClause, whereArgs);
+                    int numRowsUpdated = db.update("list_transaksi", values, whereClause, whereArgs);
 
-                if (numRowsUpdated > 0) {
-                    getGrandTotal();
-                } else {
-                    Toast.makeText(rincianBeliActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
+                    if (numRowsUpdated > 0) {
+                        getGrandTotal();
+                        txtGrandTotal.setText(String.valueOf(grandTotal));
+                    } else {
+                        Toast.makeText(rincianBeliActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
+                    }
+                    db.close();
+                }else{
+                    String whereClause = "nama_kue = ?";
+                    String[] whereArgs = {getData.getNama()};
+
+                    int numRowsDelete = db.delete("list_transaksi", whereClause, whereArgs);
+
+                    if (numRowsDelete > 0) {
+                        adapterRecycle.removeItem(position);
+                        getGrandTotal();
+                        txtGrandTotal.setText(String.valueOf(grandTotal));
+                    } else {
+                        Toast.makeText(rincianBeliActivity.this, "gagal update list", Toast.LENGTH_SHORT).show();
+                    }
+                    db.close();
                 }
-                db.close();
             }
         });
         adapterRecycle.setTambahOnClickListener(new adapterRincianBeli.tambahOnClickListener() {
@@ -119,6 +139,7 @@ public class rincianBeliActivity extends AppCompatActivity {
 
                 ContentValues values = new ContentValues();
                 values.put("qty", getData.getQty());
+                values.put("total", getData.getQty()* Integer.parseInt(getData.getHarga()));
 
                 String whereClause = "nama_kue = ?";
                 String[] whereArgs = {getData.getNama()};
@@ -127,6 +148,7 @@ public class rincianBeliActivity extends AppCompatActivity {
 
                 if (numRowsUpdated > 0) {
                     getGrandTotal();
+                    txtGrandTotal.setText(String.valueOf(grandTotal));
                 } else {
                     Toast.makeText(rincianBeliActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
                 }
@@ -180,10 +202,14 @@ public class rincianBeliActivity extends AppCompatActivity {
     public void lanjutPembayaran(View view) {
         String tanggal = txtTgl.getText().toString();
         String jam = jamSpinner.getSelectedItem().toString();
-        Intent intent = new Intent(rincianBeliActivity.this, PembayaranActivity.class);
-        intent.putExtra("tanggal_transaksi", tanggal);
-        intent.putExtra("jam_transaksi", jam);
-        startActivity(intent);
+        if (!tanggal.isEmpty() && !jam.equals("Jam Ambil")) {
+            Intent intent = new Intent(rincianBeliActivity.this, PembayaranActivity.class);
+            intent.putExtra("tanggal_transaksi", tanggal);
+            intent.putExtra("jam_transaksi", jam);
+            startActivity(intent);
+        }else{
+            Toast.makeText(rincianBeliActivity.this, "Isi Tanggal dan Jam Pengambilan Terlebih Dahulu", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

@@ -107,9 +107,6 @@ public class homeFragment extends Fragment {
                         if (userPP.equals("")){
                             photoProfile.setImageResource(R.drawable.default_pp);
                         }else{
-//                            byte[] imagePP = Base64.decode(userPPbase64, Base64.DEFAULT);
-//                            Bitmap bitmap = BitmapFactory.decodeByteArray(imagePP, 0, imagePP.length);
-//                            photoProfile.setImageBitmap(bitmap);
                             String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + userPP;
                             Glide.with(getContext()).load(URLimage).into(photoProfile);
                         }
