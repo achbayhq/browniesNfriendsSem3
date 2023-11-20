@@ -235,12 +235,9 @@ public class profileFragment extends Fragment {
                     etNama.setText(userName);
                     etTelepon.setText(userTelepon);
                     etAlamat.setText(userAlamat);
-                    if (userPP.equals("")){
+                    if (userPP == null){
                         imgPP.setImageResource(R.drawable.default_pp);
                     }else{
-//                        imgByteArray = Base64.decode(userPP, Base64.DEFAULT);
-//                        Bitmap bitmap = BitmapFactory.decodeByteArray(imgByteArray, 0, imgByteArray.length);
-//                        imgPP.setImageBitmap(bitmap);
                         String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + userPP;
                         Glide.with(getContext()).load(URLimage).into(imgPP);
                     }

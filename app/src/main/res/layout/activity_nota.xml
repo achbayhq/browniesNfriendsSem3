@@ -99,18 +99,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout"
+
+                    <View
+                        android:id="@+id/view8"
                         android:layout_width="330dp"
                         android:layout_height="2dp"
-                        android:layout_below="@id/hour"
-                        android:layout_marginTop="5dp"
-                        android:background="#D87373"
+                        android:layout_marginTop="110dp"
+                        android:background="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.502"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/hour"
-                        app:layout_constraintottom_toBottomOf="parent" />
-
+                        app:layout_constraintTop_toTopOf="@+id/judul" />
 
                     <TextView
                         android:id="@+id/textView53"
@@ -127,7 +126,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                        app:layout_constraintTop_toBottomOf="@+id/view8" />
 
                     <TextView
                         android:id="@+id/textView54"
@@ -144,7 +143,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/linearLayout2" />
+                        app:layout_constraintTop_toBottomOf="@id/view9" />
 
                     <TextView
                         android:id="@+id/nama_nota"
@@ -218,17 +217,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/jadwal" />
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout2"
+                    <View
+                        android:id="@+id/view9"
                         android:layout_width="330dp"
-                        android:layout_height="2dp"
-                        android:layout_below="@id/hour"
-                        android:layout_marginTop="5dp"
-                        android:background="#D87373"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tanggal_ambil"
-                        app:layout_constraintottom_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/tanggal_ambil" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerNota"
@@ -241,17 +237,14 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView54"
                         tools:listitem="@layout/card_nota" />
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout3"
+                    <View
+                        android:id="@+id/view11"
                         android:layout_width="330dp"
-                        android:layout_height="2dp"
-                        android:layout_below="@id/hour"
-                        android:layout_marginTop="5dp"
-                        android:background="#D87373"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/recyclerNota"
-                        app:layout_constraintottom_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/recyclerNota" />
 
                     <TextView
                         android:id="@+id/textView50"
@@ -268,7 +261,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.046"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/linearLayout3" />
+                        app:layout_constraintTop_toBottomOf="@id/view11" />
 
                     <TextView
                         android:id="@+id/textView51"

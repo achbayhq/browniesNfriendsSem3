@@ -104,7 +104,7 @@ public class homeFragment extends Fragment {
                         String userName = loggedUser.getNama();
                         String userPP = loggedUser.getPhoto_profile();
                         txtNama.setText(getString(R.string.hi)+ userName +getString(R.string.tanda_seru));
-                        if (userPP.equals("")){
+                        if (userPP == null){
                             photoProfile.setImageResource(R.drawable.default_pp);
                         }else{
                             String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + userPP;

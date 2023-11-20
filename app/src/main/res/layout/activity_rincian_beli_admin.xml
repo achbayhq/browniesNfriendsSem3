@@ -131,6 +131,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btnAddCust"
                 android:layout_width="85dp"
                 android:layout_height="45dp"
@@ -142,6 +143,18 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/alamatCust" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/imgStatusCekAkun"
+                android:layout_width="65dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.178"
+                app:layout_constraintStart_toEndOf="@+id/txtTeleponCekAkun"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/check_list" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -188,12 +201,12 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="13dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView13"
-                app:layout_constraintStart_toEndOf="@+id/imageView13"
-                app:layout_constraintTop_toTopOf="@+id/imageView13" />
+                app:layout_constraintBottom_toBottomOf="@+id/btnPilihTgl"
+                app:layout_constraintStart_toEndOf="@+id/btnPilihTgl"
+                app:layout_constraintTop_toTopOf="@+id/btnPilihTgl" />
 
             <ImageView
-                android:id="@+id/imageView13"
+                android:id="@+id/btnPilihTgl"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
@@ -208,15 +221,16 @@
                 android:id="@+id/imageView14"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tanggalAmbilAdmin"
                 app:layout_constraintStart_toEndOf="@+id/tanggalAmbilAdmin"
                 app:layout_constraintTop_toTopOf="@+id/tanggalAmbilAdmin"
                 app:srcCompat="@drawable/logo_jam" />
 
             <Spinner
-                android:id="@+id/jamAmbil"
-                android:layout_width="110dp"
+                android:id="@+id/jamAmbilAdmin"
+                android:layout_width="115dp"
                 android:layout_height="39dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView14"
                 app:layout_constraintStart_toEndOf="@+id/imageView14"
@@ -229,7 +243,7 @@
                 android:background="@color/black"
                 app:layout_constraintBottom_toTopOf="@+id/tanggalAmbilAdmin"
                 app:layout_constraintEnd_toEndOf="@+id/tanggalAmbilAdmin"
-                app:layout_constraintStart_toStartOf="@+id/imageView13" />
+                app:layout_constraintStart_toStartOf="@+id/btnPilihTgl" />
 
             <View
                 android:id="@+id/view6"
@@ -237,7 +251,7 @@
                 android:layout_height="1dp"
                 android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/tanggalAmbilAdmin"
-                app:layout_constraintStart_toStartOf="@+id/imageView13"
+                app:layout_constraintStart_toStartOf="@+id/btnPilihTgl"
                 app:layout_constraintTop_toBottomOf="@+id/tanggalAmbilAdmin" />
 
             <View
@@ -245,8 +259,8 @@
                 android:layout_width="145dp"
                 android:layout_height="1dp"
                 android:background="@color/black"
-                app:layout_constraintBottom_toTopOf="@+id/jamAmbil"
-                app:layout_constraintEnd_toEndOf="@+id/jamAmbil"
+                app:layout_constraintBottom_toTopOf="@+id/jamAmbilAdmin"
+                app:layout_constraintEnd_toEndOf="@+id/jamAmbilAdmin"
                 app:layout_constraintStart_toStartOf="@+id/imageView14" />
 
             <View
@@ -254,14 +268,14 @@
                 android:layout_width="145dp"
                 android:layout_height="1dp"
                 android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/jamAmbil"
+                app:layout_constraintEnd_toEndOf="@+id/jamAmbilAdmin"
                 app:layout_constraintStart_toStartOf="@+id/imageView14"
-                app:layout_constraintTop_toBottomOf="@+id/jamAmbil" />
+                app:layout_constraintTop_toBottomOf="@+id/jamAmbilAdmin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerViewAdmin"
         android:layout_width="360dp"
         android:layout_height="350dp"
         android:layout_marginTop="8dp"
@@ -279,7 +293,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewAdmin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -338,7 +352,7 @@
         android:layout_height="52dp"
         android:layout_marginTop="10dp"
         android:text="LANJUT PEMBAYARAN"
-        android:onClick="lanjutPembayaran"
+        android:onClick="lanjutPembayaranAdmin"
         android:backgroundTint="@color/brownButton"
         app:layout_constraintEnd_toEndOf="@+id/cardView13"
         app:layout_constraintHorizontal_bias="0.498"

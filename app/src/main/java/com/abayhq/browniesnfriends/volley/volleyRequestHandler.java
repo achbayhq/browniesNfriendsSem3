@@ -294,4 +294,35 @@ public class volleyRequestHandler {
                 });
         requestQueue.add(request);
     }
+
+    public void addCust(final String nama, final String alamat, final String telepon, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=addCustomer";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("nama", nama);
+            jsonObject.put("alamat", alamat);
+            jsonObject.put("telepon", telepon);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+
+        requestQueue.add(request);
+    }
 }

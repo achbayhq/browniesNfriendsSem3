@@ -21,7 +21,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.databasesqlite.dbTransaksiHelper;
 import com.abayhq.browniesnfriends.menu.menuFragment;
@@ -31,7 +33,9 @@ import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
 import com.abayhq.browniesnfriends.transaksi.rincianBeliActivity;
+import com.abayhq.browniesnfriends.transaksi.rincianBeliAdminActivity;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -46,11 +50,36 @@ public class DasboardActivity extends AppCompatActivity {
 
     public CardView btnTransaksi;
     public TextView cardItemTr;
-    String cekFragment;
+    String akses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dasboard);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        String telepon = sharedPreferences.getString("telepon", "");
+
+        if (!telepon.equals("")){
+            Gson gson = new Gson();
+            volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(this);
+            volleyRequestHandler.loginUser(telepon, new volleyRequestHandler.ResponseListener() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    userLoginRespons userRespon = gson.fromJson(response.toString(), userLoginRespons.class);
+                    if (userRespon.getCode() == 200) {
+                        dataUserLogin loggedUser = userRespon.getUser_list().get(0);
+                        akses = loggedUser.getAkses();
+                    }else if (userRespon.getCode() == 404) {
+                        Toast.makeText(DasboardActivity.this, "User Tidak Ditemukan", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
+        }
 
         btnTransaksi = findViewById(R.id.cardTransaksi);
         cardItemTr = findViewById(R.id.cardItemTransaksi);
@@ -114,7 +143,12 @@ public class DasboardActivity extends AppCompatActivity {
 
     public void btnTransaksi(View view) {
         lanjutTransaksi();
-        Intent intent = new Intent(DasboardActivity.this, rincianBeliActivity.class);
-        startActivity(intent);
+        if (akses.equals("customer")) {
+            Intent intent = new Intent(DasboardActivity.this, rincianBeliActivity.class);
+            startActivity(intent);
+        } else if (akses.equals("karyawan")) {
+            Intent intent = new Intent(DasboardActivity.this, rincianBeliAdminActivity.class);
+            startActivity(intent);
+        }
     }
 }
