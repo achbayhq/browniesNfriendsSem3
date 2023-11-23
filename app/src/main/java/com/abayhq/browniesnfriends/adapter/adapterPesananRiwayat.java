@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,14 @@ public class adapterPesananRiwayat extends RecyclerView.Adapter<adapterPesananRi
 
     private ArrayList<setgetPesanan> riwayatPesan;
     private Context context;
+    private pesanLagiOnClickListener pesanLagiOnClickListener;
+
+    public void setPesanLagiOnClickListener(pesanLagiOnClickListener listener) {
+        this.pesanLagiOnClickListener = listener;
+    }
+    public interface pesanLagiOnClickListener {
+        void pesanLagiOnClick(int position);
+    }
 
     public adapterPesananRiwayat(ArrayList<setgetPesanan> riwayatPesan, Context context) {
         this.riwayatPesan = riwayatPesan;
@@ -40,6 +49,16 @@ public class adapterPesananRiwayat extends RecyclerView.Adapter<adapterPesananRi
         holder.txtTgl.setText(pesan.getTanggal_pengambilan());
         holder.txtStatus.setText(pesan.getStatus());
         holder.txtHarga.setText(pesan.getGrand_total());
+
+        if (pesan.getStatus().equals("pesanan dibatalkan")){
+            holder.btnPesanLagi.setEnabled(false);
+        }
+
+        holder.btnPesanLagi.setOnClickListener(view ->{
+            if (pesanLagiOnClickListener != null) {
+                pesanLagiOnClickListener.pesanLagiOnClick(position);
+            }
+        });
     }
 
     @Override
@@ -50,6 +69,7 @@ public class adapterPesananRiwayat extends RecyclerView.Adapter<adapterPesananRi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView Img;
         TextView txtTgl, txtHarga, txtStatus;
+        Button btnPesanLagi;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +77,7 @@ public class adapterPesananRiwayat extends RecyclerView.Adapter<adapterPesananRi
             txtTgl = itemView.findViewById(R.id.tglRiwayat);
             txtStatus = itemView.findViewById(R.id.statusRiwayat);
             txtHarga = itemView.findViewById(R.id.txtTotalHargaRiwayat);
+            btnPesanLagi = itemView.findViewById(R.id.btnPesanLagi);
         }
     }
 }

@@ -42,13 +42,11 @@
 
             <ScrollView
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="625dp"
                 android:layout_marginTop="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/notaa"
@@ -60,11 +58,11 @@
                         android:id="@+id/date"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="6dp"
                         android:fontFamily="@font/poppins"
                         android:text="Senin, 23 Oktober 2023"
                         android:textAlignment="center"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +75,7 @@
                         android:fontFamily="@font/poppins"
                         android:text="11:30 WIB"
                         android:textAlignment="center"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +92,6 @@
                         android:textAlignment="center"
                         android:textColor="#03821F"
                         android:textSize="28sp"
-                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -114,14 +111,14 @@
                     <TextView
                         android:id="@+id/textView53"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="25dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/poppins_bold"
                         android:text="Pemesan"
                         android:textColor="#C0C0C0"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -151,9 +148,9 @@
                         android:layout_height="0dp"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="ANANTA GHAISANI"
-                        android:textSize="21sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -165,24 +162,24 @@
                         android:layout_height="0dp"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/poppins_semibold"
                         android:text="ORD-1562792779615"
                         android:textColor="#63372C"
-                        android:textSize="16sp"
+                        android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/nama_nota" />
 
                     <TextView
-                        android:id="@+id/tanggal_ambil"
+                        android:id="@+id/jamAmbil"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/poppins_semibold"
                         android:text="08:00 - 09:00"
                         android:textColor="#63372C"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tanggalAmbil" />
@@ -196,7 +193,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="Jadwal Pengambilan"
                         android:textColor="#C0C0C0"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -209,9 +206,9 @@
                         android:layout_height="0dp"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="50dp"
-                        android:fontFamily="@font/poppins_bold"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="Kamis, 30 Februari 2023"
-                        android:textSize="21sp"
+                        android:textSize="17sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -224,12 +221,12 @@
                         android:background="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tanggal_ambil" />
+                        app:layout_constraintTop_toBottomOf="@id/jamAmbil" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerNota"
-                        android:layout_width="0dp"
-                        android:layout_height="130dp"
+                        android:layout_width="355dp"
+                        android:layout_height="200dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -248,15 +245,15 @@
 
                     <TextView
                         android:id="@+id/textView50"
-                        android:layout_width="70dp"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
-                        android:fontFamily="@font/poppins"
-                        android:gravity="center"
-                        android:text="TOTAL"
-                        android:textSize="20sp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center_vertical"
+                        android:text="GRAND TOTAL"
+                        android:textSize="15sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.046"
@@ -264,43 +261,74 @@
                         app:layout_constraintTop_toBottomOf="@id/view11" />
 
                     <TextView
-                        android:id="@+id/textView51"
-                        android:layout_width="271dp"
+                        android:id="@+id/txtGrandTotalNota"
+                        android:layout_width="220dp"
                         android:layout_height="0dp"
                         android:layout_marginEnd="20dp"
+                        android:gravity="center|right"
                         android:text="200.000"
                         android:textColor="#660A00"
-                        android:textAlignment="textEnd"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/textView50"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView50"
                         app:layout_constraintTop_toTopOf="@+id/textView50"
                         app:layout_constraintVertical_bias="1.0" />
 
                     <TextView
-                        android:id="@+id/textView52"
+                        android:id="@+id/txtStatusNota"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:gravity="center"
                         android:text="LUNAS"
                         android:textColor="#660A00"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView51" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtKurangBayarNota" />
 
                     <ImageView
+                        android:id="@+id/imgQr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/qr"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView52" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtStatusNota" />
 
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/textKurangBayar"
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center_vertical"
+                        android:text="KURANG BAYAR"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/textView50"
+                        app:layout_constraintHorizontal_bias="0.055"
+                        app:layout_constraintStart_toStartOf="@+id/textView50"
+                        app:layout_constraintTop_toBottomOf="@+id/textView50" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/txtKurangBayarNota"
+                        android:layout_width="187dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center|right"
+                        android:text="200.000"
+                        android:textColor="#660A00"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/textKurangBayar"
+                        app:layout_constraintStart_toEndOf="@+id/textKurangBayar"
+                        app:layout_constraintTop_toTopOf="@+id/textKurangBayar" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -308,5 +336,51 @@
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnKembaliNota"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="8dp"
+        android:text="Kembali"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="17dp"
+        android:backgroundTint="@color/brownButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.903"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnBatalNota"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="20dp"
+        android:text="Ajukan Pembatalan"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="14dp"
+        android:backgroundTint="#990F00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.109"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnAmbilNota"
+        android:layout_width="300dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="8dp"
+        android:text="AMBIL"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="20dp"
+        android:backgroundTint="@color/brownButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

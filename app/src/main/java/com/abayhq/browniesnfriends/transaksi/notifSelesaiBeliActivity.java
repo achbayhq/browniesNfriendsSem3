@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.home.DasboardActivity;
+import com.abayhq.browniesnfriends.nota.notaActivity;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,7 @@ public class notifSelesaiBeliActivity extends AppCompatActivity {
 
     TextView tanggalNow, jamNow, txtGrandTotal, txtStatus;
     Integer grandTotal;
-    String status;
+    String status, nota;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class notifSelesaiBeliActivity extends AppCompatActivity {
 
         grandTotal = getIntent().getIntExtra("grand_total", 0);
         status = getIntent().getStringExtra("status");
+        nota = getIntent().getStringExtra("nota");
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         String formattedGrandTotal = numberFormat.format(grandTotal);
@@ -50,6 +52,12 @@ public class notifSelesaiBeliActivity extends AppCompatActivity {
 
     public void keListPesanan(View view) {
         Intent intent = new Intent(notifSelesaiBeliActivity.this, DasboardActivity.class);
+        startActivity(intent);
+    }
+
+    public void keNota(View view) {
+        Intent intent = new Intent(notifSelesaiBeliActivity.this, notaActivity.class);
+        intent.putExtra("nota", nota);
         startActivity(intent);
     }
 }

@@ -1,7 +1,11 @@
 package com.abayhq.browniesnfriends.pesanan;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,10 +17,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
+import com.abayhq.browniesnfriends.adapter.adapterPesananProses;
 import com.abayhq.browniesnfriends.adapter.adapterPesananRiwayat;
+import com.abayhq.browniesnfriends.databasesqlite.dbTransaksiHelper;
+import com.abayhq.browniesnfriends.home.DasboardActivity;
+import com.abayhq.browniesnfriends.nota.notaActivity;
+import com.abayhq.browniesnfriends.respons.barangNotaRespons;
+import com.abayhq.browniesnfriends.respons.pesananAdminRespons;
 import com.abayhq.browniesnfriends.respons.pesananRespons;
+import com.abayhq.browniesnfriends.respons.userLoginRespons;
+import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
+import com.abayhq.browniesnfriends.settergetter.listBarangNota;
+import com.abayhq.browniesnfriends.settergetter.setgetMenu;
 import com.abayhq.browniesnfriends.settergetter.setgetPesanan;
+import com.abayhq.browniesnfriends.settergetter.setgetPesananAdmin;
+import com.abayhq.browniesnfriends.transaksi.rincianBeliActivity;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.google.gson.Gson;
 
@@ -80,7 +97,8 @@ public class pesananRiwayatFragment extends Fragment {
     private RecyclerView recyclerView;
     private adapterPesananRiwayat adapter;
     private ArrayList<setgetPesanan> pesananArrayList;
-    String telepon;
+    public ArrayList<setgetMenu> transaksiList = new ArrayList<>();
+    String telepon, akses;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,19 +108,111 @@ public class pesananRiwayatFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         telepon = sharedPreferences.getString("telepon", "");
 
-        getPesanRiwayat();
-        recyclerView = root.findViewById(R.id.recyclerViewRiwayat);
-        adapter = new adapterPesananRiwayat(pesananArrayList,getContext());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        Gson gson = new Gson();
+        volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
+        volleyRequestHandler.loginUser(telepon, new volleyRequestHandler.ResponseListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                userLoginRespons userRespon = gson.fromJson(response.toString(), userLoginRespons.class);
+                if (userRespon.getCode() == 200) {
+                    dataUserLogin loggedUser = userRespon.getUser_list().get(0);
+                    akses = loggedUser.getAkses();
+
+                    if (akses.equals("customer")) {
+                        getPesanRiwayat();
+                        recyclerView = root.findViewById(R.id.recyclerViewRiwayat);
+                        adapter = new adapterPesananRiwayat(pesananArrayList,getContext());
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+                        adapter.setPesanLagiOnClickListener(new adapterPesananRiwayat.pesanLagiOnClickListener() {
+                            @Override
+                            public void pesanLagiOnClick(int position) {
+                                setgetPesanan selectedNota = pesananArrayList.get(position);
+                                String nota = selectedNota.getNota();
+                                volleyRequestHandler.notaBarang(nota, new volleyRequestHandler.ResponseListener() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        barangNotaRespons barangRes = gson.fromJson(response.toString(), barangNotaRespons.class);
+                                        if (barangRes.getCode() == 200) {
+                                            List<listBarangNota> barangList = barangRes.getNota_list();
+                                            for (listBarangNota list : barangList) {
+                                                String id = list.getId_barang();
+                                                String img = list.getImage_barang();
+                                                String nama = list.getNama_barang();
+                                                String harga = list.getHarga_jual();
+                                                String deskripsi = list.getDeskripsi();
+                                                String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + img;
+
+                                                transaksiList.add(new setgetMenu(URLimage, id, nama, deskripsi, harga));
+                                            }
+
+                                            dbTransaksiHelper dbHelper = new dbTransaksiHelper(getContext(), dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+                                            SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                                            for (setgetMenu menu : transaksiList){
+                                                ContentValues values = new ContentValues();
+                                                values.put("img", menu.getImg());
+                                                values.put("id_barang", menu.getId());
+                                                values.put("nama_kue", menu.getNama());
+                                                values.put("harga", menu.getHarga());
+                                                values.put("qty", menu.getQty());
+                                                values.put("total", menu.getQty() * Integer.parseInt(menu.getHarga()));
+
+                                                try {
+                                                    long newRowId = db.insert("list_transaksi", null, values);
+                                                }catch (SQLException e){
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            db.close();
+
+                                            Intent intent = new Intent(getContext(), rincianBeliActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+
+                                    }
+                                });
+                            }
+                        });
+
+                    }else if(akses.equals("karyawan")){
+                        getPesanRiwayatAdmin();
+                        recyclerView = root.findViewById(R.id.recyclerViewRiwayat);
+                        adapter = new adapterPesananRiwayat(pesananArrayList,getContext());
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+                        adapter.setPesanLagiOnClickListener(new adapterPesananRiwayat.pesanLagiOnClickListener() {
+                            @Override
+                            public void pesanLagiOnClick(int position) {
+                                setgetPesanan selectedNota = pesananArrayList.get(position);
+                                String nota = selectedNota.getNota();
+                                Intent intent = new Intent(getContext(), notaActivity.class);
+                                intent.putExtra("nota", nota);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onError(String error) {
+
+            }
+        });
 
         return root;
     }
 
     void getPesanRiwayat(){
         pesananArrayList = new ArrayList<>();
-        //pesananArrayList.add(new setgetPesanan("1 Juli 2023", "Pesanan Sudah Diambil", R.drawable.logo_diambil, "210.000"));
         Gson gson = new Gson();
 
         volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
@@ -117,6 +227,7 @@ public class pesananRiwayatFragment extends Fragment {
                         String tgl = setgetPesanan.getTanggal_pengambilan();
                         String status = setgetPesanan.getStatus();
                         String harga = setgetPesanan.getGrand_total();
+                        String nota = setgetPesanan.getNota();
                         int imgStatus = 0;
                         String formattedDate = "";
 
@@ -140,7 +251,43 @@ public class pesananRiwayatFragment extends Fragment {
                             status = "Pesanan Dibatalkan";
                         }
 
-                        pesananArrayList.add(new setgetPesanan(formattedDate, status, imgStatus, formattedGrandTotal));
+                        pesananArrayList.add(new setgetPesanan(formattedDate, status, imgStatus, formattedGrandTotal, nota));
+                    }
+                    adapter.notifyDataSetChanged();
+                }else if (pesananRespons.getCode() == 400) {
+                    Toast.makeText(getContext(), "Data Tidak Ditemukan", Toast.LENGTH_SHORT).show();
+                }else if (pesananRespons.getCode() == 404) {
+                    Toast.makeText(getContext(), "pesanan User Tidak Ditemukan", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
+    void getPesanRiwayatAdmin(){
+        pesananArrayList = new ArrayList<>();
+        Gson gson = new Gson();
+
+        volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
+        volleyRequestHandler.pesananRiwayatAdmin(new volleyRequestHandler.ResponseListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                pesananAdminRespons pesananRespons = gson.fromJson(response.toString(), pesananAdminRespons.class);
+                if (pesananRespons.getCode() == 200) {
+                    List<setgetPesananAdmin> pesananList = pesananRespons.getTransaksi_list();
+
+                    for (setgetPesananAdmin setgetPesanan : pesananList) {
+                        String nota = setgetPesanan.getNo_nota();
+                        String nama = setgetPesanan.getNama();
+                        String harga = setgetPesanan.getGrand_total();
+
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+                        String formattedGrandTotal = numberFormat.format(Integer.parseInt(harga));
+
+                        pesananArrayList.add(new setgetPesanan(nama, nota, R.drawable.logo_nota, formattedGrandTotal, nota));
                     }
                     adapter.notifyDataSetChanged();
                 }else if (pesananRespons.getCode() == 400) {

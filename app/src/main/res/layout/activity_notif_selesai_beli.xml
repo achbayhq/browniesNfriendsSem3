@@ -139,6 +139,7 @@
         android:textStyle="bold"
         android:fontFamily="@font/poppins"
         android:backgroundTint="@color/brownButton"
+        android:onClick="keNota"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"

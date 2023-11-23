@@ -13,8 +13,4 @@
         <item name="android:textColor">#47271F</item>
     </style>
     <style name="Theme.BrowniesNfriends" parent="Base.Theme.BrowniesNfriends" />
-
-    <style name="Theme.BrowniesNfriends" parent="Base.Theme.BrowniesNfriends" />
-
-    <style name="Theme.BrowniesNfriends" parent="Base.Theme.BrowniesNfriends" />
 </resources>

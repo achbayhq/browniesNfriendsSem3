@@ -1,6 +1,7 @@
 package com.abayhq.browniesnfriends.pesanan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -17,11 +18,16 @@ import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.adapter.adapterMenuUtama;
 import com.abayhq.browniesnfriends.adapter.adapterPesananTerjadwal;
+import com.abayhq.browniesnfriends.nota.notaActivity;
 import com.abayhq.browniesnfriends.respons.dataBarangRespons;
+import com.abayhq.browniesnfriends.respons.pesananAdminRespons;
 import com.abayhq.browniesnfriends.respons.pesananRespons;
+import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataBarang;
+import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
 import com.abayhq.browniesnfriends.settergetter.setgetPesanan;
+import com.abayhq.browniesnfriends.settergetter.setgetPesananAdmin;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.google.gson.Gson;
 
@@ -85,22 +91,71 @@ public class pesananTerjadwalFragment extends Fragment {
     private RecyclerView recyclerView;
     private adapterPesananTerjadwal adapter;
     private ArrayList<setgetPesanan> pesananArrayList;
-    String telepon;
+    String telepon, akses;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_pesanan_terjadwal, container, false);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         telepon = sharedPreferences.getString("telepon", "");
 
-        getPesanTerjadwal();
-        recyclerView = root.findViewById(R.id.recyclerViewTerjadwal);
-        adapter = new adapterPesananTerjadwal(pesananArrayList,getContext());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        Gson gson = new Gson();
+        volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
+        volleyRequestHandler.loginUser(telepon, new volleyRequestHandler.ResponseListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                userLoginRespons userRespon = gson.fromJson(response.toString(), userLoginRespons.class);
+                if (userRespon.getCode() == 200) {
+                    dataUserLogin loggedUser = userRespon.getUser_list().get(0);
+                    akses = loggedUser.getAkses();
+
+                    if (akses.equals("customer")) {
+                        getPesanTerjadwal();
+                        recyclerView = root.findViewById(R.id.recyclerViewTerjadwal);
+                        adapter = new adapterPesananTerjadwal(pesananArrayList,getContext());
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+                        adapter.setLihatNotaOnClickListener(new adapterPesananTerjadwal.lihatNotaOnClickListener() {
+                            @Override
+                            public void lihatNotaOnClick(int position) {
+                                setgetPesanan selectedNota = pesananArrayList.get(position);
+                                String nota = selectedNota.getNota();
+                                Intent intent = new Intent(getContext(), notaActivity.class);
+                                intent.putExtra("notaTerjadwal", nota);
+                                startActivity(intent);
+                            }
+                        });
+
+                    }else if(akses.equals("karyawan")){
+                        getPesanTerjadwalAdmin();
+                        recyclerView = root.findViewById(R.id.recyclerViewTerjadwal);
+                        adapter = new adapterPesananTerjadwal(pesananArrayList,getContext());
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+                        adapter.setLihatNotaOnClickListener(new adapterPesananTerjadwal.lihatNotaOnClickListener() {
+                            @Override
+                            public void lihatNotaOnClick(int position) {
+                                setgetPesanan selectedNota = pesananArrayList.get(position);
+                                String nota = selectedNota.getNota();
+                                Intent intent = new Intent(getContext(), notaActivity.class);
+                                intent.putExtra("notaTerjadwal", nota);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onError(String error) {
+
+            }
+        });
 
         return root;
     }
@@ -121,6 +176,7 @@ public class pesananTerjadwalFragment extends Fragment {
                         String tgl = setgetPesanan.getTanggal_pengambilan();
                         String status = setgetPesanan.getStatus();
                         String harga = setgetPesanan.getGrand_total();
+                        String nota = setgetPesanan.getNota();
                         int imgStatus = 0;
                         String formattedDate = "";
 
@@ -144,13 +200,47 @@ public class pesananTerjadwalFragment extends Fragment {
                             status = "Pesanan Terdaftar";
                         }
 
-                        pesananArrayList.add(new setgetPesanan(formattedDate, status, imgStatus, formattedGrandTotal));
+                        pesananArrayList.add(new setgetPesanan(formattedDate, status, imgStatus, formattedGrandTotal, nota));
                     }
                     adapter.notifyDataSetChanged();
                 }else if (pesananRespons.getCode() == 400) {
                     Toast.makeText(getContext(), "Data Tidak Ditemukan", Toast.LENGTH_SHORT).show();
                 }else if (pesananRespons.getCode() == 404) {
                     Toast.makeText(getContext(), "pesanan User Tidak Ditemukan", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
+    void getPesanTerjadwalAdmin(){
+        pesananArrayList = new ArrayList<>();
+        Gson gson = new Gson();
+
+        volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
+        volleyRequestHandler.pesananTerjadwalAdmin(new volleyRequestHandler.ResponseListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                pesananAdminRespons pesananRespons = gson.fromJson(response.toString(), pesananAdminRespons.class);
+                if (pesananRespons.getCode() == 200) {
+                    List<setgetPesananAdmin> pesananList = pesananRespons.getTransaksi_list();
+
+                    for (setgetPesananAdmin setgetPesanan : pesananList) {
+                        String nota = setgetPesanan.getNo_nota();
+                        String nama = setgetPesanan.getNama();
+                        String harga = setgetPesanan.getGrand_total();
+
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+                        String formattedGrandTotal = numberFormat.format(Integer.parseInt(harga));
+
+                        pesananArrayList.add(new setgetPesanan(nama, nota, R.drawable.logo_nota, formattedGrandTotal, nota));
+                    }
+                    adapter.notifyDataSetChanged();
+                }else if (pesananRespons.getCode() == 400) {
+                    Toast.makeText(getContext(), "Data Tidak Ditemukan", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
