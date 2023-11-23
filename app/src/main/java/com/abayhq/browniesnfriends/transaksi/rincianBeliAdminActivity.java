@@ -325,7 +325,7 @@ public class rincianBeliAdminActivity extends AppCompatActivity {
         String telepon = txtTelepon.getText().toString();
         if (statusAkunCust) {
             if (!tanggal.isEmpty() && !jam.equals("Jam Ambil")) {
-                Intent intent = new Intent(rincianBeliAdminActivity.this, PembayaranActivity.class);
+                Intent intent = new Intent(rincianBeliAdminActivity.this, PembayaranAdminActivity.class);
                 intent.putExtra("tanggal_transaksi", tanggal);
                 intent.putExtra("jam_transaksi", jam);
                 intent.putExtra("telepon", telepon);

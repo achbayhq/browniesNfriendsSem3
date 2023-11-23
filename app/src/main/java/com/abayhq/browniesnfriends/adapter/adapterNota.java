@@ -10,17 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abayhq.browniesnfriends.R;
-import com.abayhq.browniesnfriends.settergetter.setgetNota;
-import com.abayhq.browniesnfriends.settergetter.setgetPesanan;
+import com.abayhq.browniesnfriends.settergetter.listBarangNota;
 
 import java.util.ArrayList;
 
 public class adapterNota extends RecyclerView.Adapter<adapterNota.ViewHolder>{
-    private ArrayList <setgetNota> items;
+    private ArrayList <listBarangNota> listBarang;
     private Context context;
 
-    public adapterNota(ArrayList<setgetNota> items, Context context) {
-        this.items = items;
+    public adapterNota(ArrayList<listBarangNota> listBarang, Context context) {
+        this.listBarang = listBarang;
         this.context = context;
     }
 
@@ -34,18 +33,18 @@ public class adapterNota extends RecyclerView.Adapter<adapterNota.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull adapterNota.ViewHolder holder, int position) {
-        setgetNota nota = items.get(position);
+        listBarangNota nota = listBarang.get(position);
 
         holder.txtQty.setText(nota.getQty());
-        holder.txtBarang.setText(nota.getNama());
-        holder.txtHarga.setText(nota.getHarga());
+        holder.txtBarang.setText(nota.getNama_barang());
+        holder.txtHarga.setText(nota.getHarga_jual());
         holder.txtTotal.setText(nota.getTotal());
 
     }
 
     @Override
     public int getItemCount() {
-        return (items != null) ? items.size():0;
+        return (listBarang != null) ? listBarang.size():0;
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView txtQty, txtBarang, txtHarga, txtTotal;

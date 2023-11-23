@@ -139,7 +139,7 @@ public class PembayaranActivity extends AppCompatActivity {
                     String imgBuktiBase64 = Base64.encodeToString(imgBuktiByteArray, Base64.DEFAULT);
 
                     volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(this);
-                    volleyRequestHandler.transaksi(imgBuktiBase64, grandTotal, bayar, kembalian, kekurangan, status_bayar, telepon, tanggalTr, jamTr, new volleyRequestHandler.ResponseListener() {
+                    volleyRequestHandler.transaksi(imgBuktiBase64, grandTotal, bayar, kembalian, kekurangan, status_bayar, telepon, telepon, tanggalTr, jamTr, new volleyRequestHandler.ResponseListener() {
                         @Override
                         public void onResponse(JSONObject response) {
                             responsNota getResponNota = gson.fromJson(response.toString(), responsNota.class);
@@ -156,6 +156,7 @@ public class PembayaranActivity extends AppCompatActivity {
                                             Intent intent = new Intent(PembayaranActivity.this, notifSelesaiBeliActivity.class);
                                             intent.putExtra("grand_total", grandTotal);
                                             intent.putExtra("status", status_bayar);
+                                            intent.putExtra("nota", no_nota);
                                             startActivity(intent);
                                         }
 

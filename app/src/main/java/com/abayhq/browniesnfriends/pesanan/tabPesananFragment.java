@@ -1,20 +1,32 @@
 package com.abayhq.browniesnfriends.pesanan;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.abayhq.browniesnfriends.R;
+import com.abayhq.browniesnfriends.adapter.adapterPesananTerjadwal;
 import com.abayhq.browniesnfriends.adapter.adapterTabPesanan;
+import com.abayhq.browniesnfriends.respons.userLoginRespons;
+import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
+import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +77,8 @@ public class tabPesananFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    TextView txtPesanan;
+    String telepon, akses;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +87,33 @@ public class tabPesananFragment extends Fragment {
 
         tabLayout = root.findViewById(R.id.tabLayout);
         viewPager = root.findViewById(R.id.forFrameTab);
+        txtPesanan = root.findViewById(R.id.txtPesanan);
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        telepon = sharedPreferences.getString("telepon", "");
+
+        Gson gson = new Gson();
+        volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(getContext());
+        volleyRequestHandler.loginUser(telepon, new volleyRequestHandler.ResponseListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                userLoginRespons userRespon = gson.fromJson(response.toString(), userLoginRespons.class);
+                if (userRespon.getCode() == 200) {
+                    dataUserLogin loggedUser = userRespon.getUser_list().get(0);
+                    akses = loggedUser.getAkses();
+
+                    if (akses.equals("customer")) {
+                        txtPesanan.setText("Pesanan Saya");
+                    }else if(akses.equals("karyawan")){
+                        txtPesanan.setText("Daftar Pesanan");
+                    }
+                }
+            }
+            @Override
+            public void onError(String error) {
+
+            }
+        });
 
         adapterTabPesanan adapterTabPesanan = new adapterTabPesanan(getActivity());
 

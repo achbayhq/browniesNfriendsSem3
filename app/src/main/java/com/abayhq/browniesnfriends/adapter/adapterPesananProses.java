@@ -22,6 +22,14 @@ public class adapterPesananProses extends RecyclerView.Adapter<adapterPesananPro
 
     private ArrayList<setgetPesanan> prosesPesan;
     private Context context;
+    private lihatNotaOnClickListener lihatNotaOnClickListener;
+
+    public void setLihatNotaOnClickListener(lihatNotaOnClickListener listener) {
+        this.lihatNotaOnClickListener = listener;
+    }
+    public interface lihatNotaOnClickListener {
+        void lihatNotaOnClick(int position);
+    }
 
     public adapterPesananProses(ArrayList<setgetPesanan> prosesPesan, Context context) {
         this.prosesPesan = prosesPesan;
@@ -44,6 +52,12 @@ public class adapterPesananProses extends RecyclerView.Adapter<adapterPesananPro
         holder.txtTgl.setText(pesan.getTanggal_pengambilan());
         holder.txtStatus.setText(pesan.getStatus());
         holder.txtHarga.setText(pesan.getGrand_total());
+
+        holder.btnLihatNota.setOnClickListener(view ->{
+            if (lihatNotaOnClickListener != null) {
+                lihatNotaOnClickListener.lihatNotaOnClick(position);
+            }
+        });
     }
 
     @Override
@@ -54,6 +68,7 @@ public class adapterPesananProses extends RecyclerView.Adapter<adapterPesananPro
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView Img;
         TextView txtTgl, txtHarga, txtStatus;
+        Button btnLihatNota;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +76,7 @@ public class adapterPesananProses extends RecyclerView.Adapter<adapterPesananPro
             txtTgl = itemView.findViewById(R.id.tglProses);
             txtStatus = itemView.findViewById(R.id.statusProses);
             txtHarga = itemView.findViewById(R.id.txtTotalHargaProses);
+            btnLihatNota = itemView.findViewById(R.id.btnLihatNotaProses);
         }
     }
 }

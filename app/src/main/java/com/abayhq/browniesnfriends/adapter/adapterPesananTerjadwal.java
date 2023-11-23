@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,14 @@ public class adapterPesananTerjadwal extends RecyclerView.Adapter<adapterPesanan
 
     private ArrayList<setgetPesanan> terjadwalPesan;
     private Context context;
+    private lihatNotaOnClickListener lihatNotaOnClickListener;
+
+    public void setLihatNotaOnClickListener(lihatNotaOnClickListener listener) {
+        this.lihatNotaOnClickListener = listener;
+    }
+    public interface lihatNotaOnClickListener {
+        void lihatNotaOnClick(int position);
+    }
 
     public adapterPesananTerjadwal(ArrayList<setgetPesanan> terjadwalPesan, Context context) {
         this.terjadwalPesan = terjadwalPesan;
@@ -40,6 +49,12 @@ public class adapterPesananTerjadwal extends RecyclerView.Adapter<adapterPesanan
         holder.txtTgl.setText(pesan.getTanggal_pengambilan());
         holder.txtStatus.setText(pesan.getStatus());
         holder.txtHarga.setText(pesan.getGrand_total());
+
+        holder.btnLihatNota.setOnClickListener(view ->{
+            if (lihatNotaOnClickListener != null) {
+                lihatNotaOnClickListener.lihatNotaOnClick(position);
+            }
+        });
     }
 
     @Override
@@ -50,6 +65,7 @@ public class adapterPesananTerjadwal extends RecyclerView.Adapter<adapterPesanan
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView Img;
         TextView txtTgl, txtHarga, txtStatus;
+        Button btnLihatNota;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +73,7 @@ public class adapterPesananTerjadwal extends RecyclerView.Adapter<adapterPesanan
             txtTgl = itemView.findViewById(R.id.tglTerjadwal);
             txtStatus = itemView.findViewById(R.id.statusTerjadwal);
             txtHarga = itemView.findViewById(R.id.txtTotalHargaTerjadwal);
+            btnLihatNota = itemView.findViewById(R.id.btnLihatNota);
         }
     }
 }
