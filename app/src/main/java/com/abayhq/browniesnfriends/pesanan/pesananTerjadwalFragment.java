@@ -198,6 +198,9 @@ public class pesananTerjadwalFragment extends Fragment {
                         }else if (status.equals("pesanan diproses")){
                             imgStatus = R.drawable.logo_terdaftar;
                             status = "Pesanan Terdaftar";
+                        }else if (status.equals("permintaan batal")){
+                            imgStatus = R.drawable.logo_cancel;
+                            status = "Permintaan Batal";
                         }
 
                         pesananArrayList.add(new setgetPesanan(formattedDate, status, imgStatus, formattedGrandTotal, nota));

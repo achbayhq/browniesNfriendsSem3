@@ -26,13 +26,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView18"
         android:layout_width="370dp"
         android:layout_height="655dp"
         android:layout_marginTop="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -299,7 +300,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/txtStatusNota" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/textKurangBayar"
                         android:layout_width="150dp"
                         android:layout_height="40dp"
@@ -310,13 +310,13 @@
                         android:text="KURANG BAYAR"
                         android:textSize="15sp"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/textView50"
                         app:layout_constraintHorizontal_bias="0.055"
                         app:layout_constraintStart_toStartOf="@+id/textView50"
                         app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/txtKurangBayarNota"
                         android:layout_width="187dp"
                         android:layout_height="0dp"
@@ -326,6 +326,7 @@
                         android:textColor="#660A00"
                         android:textSize="18sp"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/textKurangBayar"
                         app:layout_constraintStart_toEndOf="@+id/textKurangBayar"
                         app:layout_constraintTop_toTopOf="@+id/textKurangBayar" />
@@ -381,6 +382,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

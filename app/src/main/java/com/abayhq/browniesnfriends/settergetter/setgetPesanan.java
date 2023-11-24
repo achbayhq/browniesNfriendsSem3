@@ -2,7 +2,7 @@ package com.abayhq.browniesnfriends.settergetter;
 
 public class setgetPesanan {
 
-    String tanggal_pengambilan, status, grand_total, nota;
+    String tanggal_pengambilan, status, grand_total, no_nota;
     int imgStatus;
 
     public setgetPesanan(String tanggal_pengambilan, String status, int imgStatus, String grand_total, String nota) {
@@ -10,7 +10,7 @@ public class setgetPesanan {
         this.status = status;
         this.grand_total = grand_total;
         this.imgStatus = imgStatus;
-        this.nota = nota;
+        this.no_nota = nota;
     }
 
     public String getTanggal_pengambilan() {
@@ -46,10 +46,10 @@ public class setgetPesanan {
     }
 
     public String getNota() {
-        return nota;
+        return no_nota;
     }
 
     public void setNota(String nota) {
-        this.nota = nota;
+        this.no_nota = nota;
     }
 }
