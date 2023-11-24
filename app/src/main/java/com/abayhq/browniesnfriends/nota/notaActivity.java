@@ -4,9 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,13 +24,17 @@ import android.widget.Toast;
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.adapter.adapterMenuUtama;
 import com.abayhq.browniesnfriends.adapter.adapterNota;
+import com.abayhq.browniesnfriends.home.DasboardActivity;
 import com.abayhq.browniesnfriends.respons.barangNotaRespons;
 import com.abayhq.browniesnfriends.respons.notaTransaksiRespons;
 import com.abayhq.browniesnfriends.settergetter.dataNotaTransaksi;
 import com.abayhq.browniesnfriends.settergetter.listBarangNota;
+import com.abayhq.browniesnfriends.transaksi.notifSelesaiBeliActivity;
+import com.abayhq.browniesnfriends.transaksi.pelunasanActivity;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
@@ -36,11 +50,12 @@ public class notaActivity extends AppCompatActivity {
 
     TextView tglTr, jamTr, namaCust, noNota, tglAmbil, jamAmbil, txtGrandTotal, txtStatus, textKurangbayar, txtKurangbayar;
     ImageView imgQr;
-    String nota, notaTerjadwal, notaProsesAdmin;
+    String nota, notaTerjadwal, notaProsesAdmin, alasanBatal = "";
     Button btnAmbil, btnBatal, btnKembali;
     private RecyclerView recyclerView;
     private adapterNota adapter;
     private ArrayList<listBarangNota> menuArrayList;
+    Boolean pickAlasan = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +89,55 @@ public class notaActivity extends AppCompatActivity {
         notaTerjadwal = getIntent().getStringExtra("notaTerjadwal");
         notaProsesAdmin = getIntent().getStringExtra("notaProsesAdmin");
 
-//        if (nota == null){
-//            nota = notaTerjadwal;
-//        }
+        btnKembali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(notaActivity.this, DasboardActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnBatal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogBatal();
+            }
+        });
+
+        btnAmbil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String status = txtStatus.getText().toString();
+                if (status.equals("DP")) {
+                    Intent intent = new Intent(notaActivity.this, pelunasanActivity.class);
+                    intent.putExtra("nota", noNota.getText().toString());
+                    startActivity(intent);
+                }else{
+                    String nt = noNota.getText().toString();
+                    volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(notaActivity.this);
+                    volleyRequestHandler.pengambilanLunas(nt, new volleyRequestHandler.ResponseListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try{
+                                int code = response.getInt("code");
+                                if (code == 200){
+                                    Intent intent = new Intent(notaActivity.this, DasboardActivity.class);
+                                    startActivity(intent);
+                                } else if (code == 400){
+                                    Toast.makeText(notaActivity.this, "Pengambilan Gagal", Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+                }
+            }
+        });
 
         if (nota != null) {
             Gson gson = new Gson();
@@ -346,5 +407,170 @@ public class notaActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void showDialogBatal(){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheetnota);
+        TextView alasan1 = dialog.findViewById(R.id.alasanBatal1);
+        TextView alasan2 = dialog.findViewById(R.id.alasanBatal2);
+        TextView alasan3 = dialog.findViewById(R.id.alasanBatal3);
+        TextView alasan4 = dialog.findViewById(R.id.alasanBatal4);
+        EditText alasanLain = dialog.findViewById(R.id.alasanLainnya);
+        Button kirim = dialog.findViewById(R.id.btnKirimPembatalan);
+
+        String nota = noNota.getText().toString();
+        String isiAlasanLain = alasanLain.getText().toString();
+
+        if (isiAlasanLain.isEmpty()){
+            alasan1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (pickAlasan){
+                        pickAlasan = false;
+                        alasanBatal = "";
+                        alasan1.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasanLain.setEnabled(true);
+                    }else{
+                        pickAlasan = true;
+                        alasanBatal = alasan1.getText().toString();
+                        alasanLain.setEnabled(false);
+                        alasan1.setBackgroundColor(Color.parseColor("#F7EEEE"));
+                        alasan2.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan3.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan4.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    }
+                }
+            });
+            alasan2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (pickAlasan){
+                        pickAlasan = false;
+                        alasanBatal = "";
+                        alasan2.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasanLain.setEnabled(true);
+                    }else {
+                        pickAlasan = true;
+                        alasanBatal = alasan2.getText().toString();
+                        alasanLain.setEnabled(false);
+                        alasan2.setBackgroundColor(Color.parseColor("#F7EEEE"));
+                        alasan3.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan4.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan1.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    }
+                }
+            });
+            alasan3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (pickAlasan){
+                        pickAlasan = false;
+                        alasanBatal = "";
+                        alasan3.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasanLain.setEnabled(true);
+                    }else {
+                        pickAlasan = true;
+                        alasanBatal = alasan3.getText().toString();
+                        alasanLain.setEnabled(false);
+                        alasan3.setBackgroundColor(Color.parseColor("#F7EEEE"));
+                        alasan2.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan1.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan4.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    }
+                }
+            });
+            alasan4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (pickAlasan){
+                        pickAlasan = false;
+                        alasanBatal = "";
+                        alasan4.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasanLain.setEnabled(true);
+                    }else {
+                        pickAlasan = true;
+                        alasanBatal = alasan4.getText().toString();
+                        alasanLain.setEnabled(false);
+                        alasan4.setBackgroundColor(Color.parseColor("#F7EEEE"));
+                        alasan2.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan3.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                        alasan1.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    }
+                }
+            });
+        }else {
+            alasanBatal = isiAlasanLain;
+        }
+
+        alasanLain.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().isEmpty()) {
+                    alasan1.setEnabled(true);
+                    alasan2.setEnabled(true);
+                    alasan3.setEnabled(true);
+                    alasan4.setEnabled(true);
+                } else {
+                    alasan1.setEnabled(false);
+                    alasan2.setEnabled(false);
+                    alasan3.setEnabled(false);
+                    alasan4.setEnabled(false);
+                    alasan1.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    alasan2.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    alasan3.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    alasan4.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    alasanBatal = s.toString();
+                }
+            }
+        });
+
+        kirim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!alasanBatal.equals("")){
+                    volleyRequestHandler volleyRequestHandler = new volleyRequestHandler(notaActivity.this);
+                    volleyRequestHandler.reqPembatalan(nota, alasanBatal, new volleyRequestHandler.ResponseListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                int code = response.getInt("code");
+                                if (code == 200){
+                                    dialog.dismiss();
+                                }else if (code == 400){
+                                    Toast.makeText(notaActivity.this, "Gagal Request Pembatalan", Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+                }else{
+                    Toast.makeText(notaActivity.this, "Pilih Alasan Batal Terlebih Dahulu", Toast.LENGTH_SHORT).show();
+                }
+                }
+            });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }

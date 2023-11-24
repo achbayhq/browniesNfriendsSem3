@@ -8,6 +8,7 @@ public class dataNotaTransaksi {
     String grand_total;
     String status_bayar;
     String kurang_bayar;
+    String dibayarkan;
     String status_batal;
 
     public String getNo_nota() {
@@ -64,6 +65,14 @@ public class dataNotaTransaksi {
 
     public void setKurang_bayar(String kurang_bayar) {
         this.kurang_bayar = kurang_bayar;
+    }
+
+    public String getDibayarkan() {
+        return dibayarkan;
+    }
+
+    public void setDibayarkan(String dibayarkan) {
+        this.dibayarkan = dibayarkan;
     }
 
     public String getStatus_batal() {
