@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
+import com.abayhq.browniesnfriends.adapter.adapterMenuUtama;
 import com.abayhq.browniesnfriends.databasesqlite.dbTransaksiHelper;
 import com.abayhq.browniesnfriends.menu.menuFragment;
 import com.abayhq.browniesnfriends.pesanan.tabPesananFragment;
@@ -47,10 +49,11 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 public class DasboardActivity extends AppCompatActivity {
 
     AnimatedBottomBar navBar;
-
     public CardView btnTransaksi;
     public TextView cardItemTr;
     String akses;
+    public static int REQUEST_CODE_PAKET = 123;
+    ArrayList<setgetMenu> transaksiList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +87,7 @@ public class DasboardActivity extends AppCompatActivity {
         btnTransaksi = findViewById(R.id.cardTransaksi);
         cardItemTr = findViewById(R.id.cardItemTransaksi);
         navBar = findViewById(R.id.navBar);
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
         replaceFragment(new homeFragment(), "pesanan");
         navBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
@@ -93,6 +97,11 @@ public class DasboardActivity extends AppCompatActivity {
                     btnTransaksi.setVisibility(View.GONE);
                 } else if (tab1.getId() == R.id.menu) {
                     replaceFragment(new menuFragment(), "menu");
+                    int isi = dbHelper.countIsiTransaksi();
+                    if (isi > 0){
+                        btnTransaksi.setVisibility(View.VISIBLE);
+                        cardItemTr.setText(String.valueOf(isi));
+                    }
                 } else if (tab1.getId() == R.id.profile) {
                     replaceFragment(new profileFragment(), "profile");
                     btnTransaksi.setVisibility(View.GONE);
@@ -111,9 +120,6 @@ public class DasboardActivity extends AppCompatActivity {
     }
 
     private void lanjutTransaksi(){
-        menuFragment fragment = (menuFragment) getSupportFragmentManager().findFragmentByTag("menu");
-        ArrayList<setgetMenu> transaksiList = fragment.transaksiList;
-
         dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -135,20 +141,44 @@ public class DasboardActivity extends AppCompatActivity {
         db.close();
     }
 
-    private void replaceFragment(Fragment fragment, String tag){
+    public void replaceFragment(Fragment fragment, String tag){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.forFragment, fragment, tag);
         transaction.commit();
     }
 
     public void btnTransaksi(View view) {
-        lanjutTransaksi();
+        menuFragment fragment = (menuFragment) getSupportFragmentManager().findFragmentByTag("menu");
+
+        if (fragment != null && fragment.transaksiList != null) {
+            transaksiList = fragment.transaksiList;
+            lanjutTransaksi();
+        }else{
+            Toast.makeText(DasboardActivity.this, "transaksi List Kosong", Toast.LENGTH_SHORT).show();
+        }
+
         if (akses.equals("customer")) {
             Intent intent = new Intent(DasboardActivity.this, rincianBeliActivity.class);
             startActivity(intent);
         } else if (akses.equals("karyawan")) {
             Intent intent = new Intent(DasboardActivity.this, rincianBeliAdminActivity.class);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PAKET && resultCode == Activity.RESULT_OK) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.forFragment, new menuFragment(), "menu")
+                    .commit();
+            dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+            int isi = dbHelper.countIsiTransaksi();
+            if (isi > 0){
+                btnTransaksi.setVisibility(View.VISIBLE);
+                cardItemTr.setText(String.valueOf(isi));
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.login.MainActivity;
+import com.abayhq.browniesnfriends.menu.menuFragment;
 import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
@@ -30,6 +31,8 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,7 +82,7 @@ public class homeFragment extends Fragment {
     }
 
     TextView txtNama;
-    ImageView photoProfile;
+    ImageView photoProfile, btnKeMenu, btnBestSeller, btnKueManis, btnKueAsin;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,8 +92,57 @@ public class homeFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String telepon = sharedPreferences.getString("telepon", "");
 
+        btnKeMenu = root.findViewById(R.id.imageView8);
+        btnBestSeller = root.findViewById(R.id.imageView9);
+        btnKueManis = root.findViewById(R.id.imageView10);
+        btnKueAsin = root.findViewById(R.id.imageView11);
         photoProfile = root.findViewById(R.id.photoProfile);
         txtNama = root.findViewById(R.id.txtNamaHome);
+
+        btnKeMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DasboardActivity) requireActivity()).replaceFragment(new menuFragment(), "menu");
+                ((DasboardActivity) requireActivity()).navBar.selectTabById(R.id.menu, true);
+            }
+        });
+        btnBestSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuFragment menu = new menuFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("filter", "best seller");
+                menu.setArguments(bundle);
+
+                ((DasboardActivity) requireActivity()).replaceFragment(menu, "menu");
+                ((DasboardActivity) requireActivity()).navBar.selectTabById(R.id.menu, true);
+            }
+        });
+        btnKueManis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuFragment menu = new menuFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("filter", "manis");
+                menu.setArguments(bundle);
+
+                ((DasboardActivity) requireActivity()).replaceFragment(menu, "menu");
+                ((DasboardActivity) requireActivity()).navBar.selectTabById(R.id.menu, true);
+            }
+        });
+        btnKueAsin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuFragment menu = new menuFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("filter", "asin");
+                menu.setArguments(bundle);
+
+                ((DasboardActivity) requireActivity()).replaceFragment(menu, "menu");
+                ((DasboardActivity) requireActivity()).navBar.selectTabById(R.id.menu, true);
+            }
+        });
+
 
         if (!telepon.equals("")){
             Gson gson = new Gson();

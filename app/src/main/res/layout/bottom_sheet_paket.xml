@@ -8,7 +8,7 @@
     android:background="@drawable/dialog_paket">
 
     <Button
-        android:id="@+id/button16"
+        android:id="@+id/btnBackPilihPaket"
         android:layout_width="45dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -25,11 +25,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/txtNamaPaketnya"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/poppins"
+        android:fontFamily="@font/poppins_medium"
         android:text="Paket Mini 10"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -39,37 +39,39 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView47"
+        android:id="@+id/txtPilihJenisKue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/poppins_medium"
         android:text="(Pilih jenis 10 kue)"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView34"
-        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+        app:layout_constraintStart_toStartOf="@+id/txtNamaPaketnya"
+        app:layout_constraintTop_toBottomOf="@+id/txtNamaPaketnya" />
 
     <ListView
+        android:id="@+id/listPilihKue"
         android:layout_width="360dp"
-        android:layout_height="560dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button18"
+        android:layout_height="500dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.588"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView47" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPilihJenisKue" />
 
     <Button
-        android:id="@+id/button18"
+        android:id="@+id/btnKonfirmPaket"
         android:layout_width="340dp"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/brownLogo"
         android:text="Konfirmasi"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listPilihKue" />
 </androidx.constraintlayout.widget.ConstraintLayout>

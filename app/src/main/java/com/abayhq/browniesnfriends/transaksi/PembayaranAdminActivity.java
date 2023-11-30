@@ -27,6 +27,8 @@ import com.abayhq.browniesnfriends.R;
 import com.abayhq.browniesnfriends.databasesqlite.dbTransaksiHelper;
 import com.abayhq.browniesnfriends.respons.responsNota;
 import com.abayhq.browniesnfriends.settergetter.listTransaksiBarang;
+import com.abayhq.browniesnfriends.settergetter.listTransaksiDetailPaket;
+import com.abayhq.browniesnfriends.settergetter.listTransaksiPaket;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.Gson;
@@ -47,10 +49,12 @@ public class PembayaranAdminActivity extends AppCompatActivity {
     Button btnSimpanTunai, btnUpload;
     EditText txtKurang, txtKembalian, txtPembayaran;
     private ArrayList<listTransaksiBarang> listTrBarang;
+    private ArrayList<listTransaksiDetailPaket> listDetailPaket;
+    private ArrayList<listTransaksiPaket> listPaketTr;
     Integer grandTotal;
     String tanggalTr, jamTr, teleponPembeli, teleponPemesan, bayarStr, status_bayar, no_nota, paramStatusBayar;
     byte[] imgBuktiByteArray;
-    int kembalian, kekurangan, bayar;
+    int kembalian, kekurangan, bayar, isiBarang, isiPaket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +83,18 @@ public class PembayaranAdminActivity extends AppCompatActivity {
         paramStatusBayar = "transfer";
 
         getGrandTotal();
-        addListBarang();
+
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+        isiBarang = dbHelper.countBarang();
+        isiPaket = dbHelper.countPaket();
+
+        if (isiBarang > 0) {
+            addListBarang();
+        }
+        if (isiPaket > 0){
+            addListPaketTr();
+            addDetailListPaket();
+        }
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         String formattedGrandTotal = numberFormat.format(grandTotal);
         txtGrandTotal.setText(formattedGrandTotal);
@@ -203,28 +218,80 @@ public class PembayaranAdminActivity extends AppCompatActivity {
                 responsNota getResponNota = gson.fromJson(response.toString(), responsNota.class);
                 if (getResponNota.getCode() == 200) {
                     no_nota = getResponNota.getNota();
-                    for (listTransaksiBarang listBarang : listTrBarang) {
-                        String idBrng = listBarang.getId();
-                        int qty = listBarang.getQty();
-                        int total = listBarang.getTotal();
 
-                        volleyRequestHandler.listBarangTr(no_nota, idBrng, qty, total, new volleyRequestHandler.ResponseListener() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Intent intent = new Intent(PembayaranAdminActivity.this, notifSelesaiBeliActivity.class);
-                                intent.putExtra("grand_total", grandTotal);
-                                intent.putExtra("status", status_bayar);
-                                intent.putExtra("nota", no_nota);
-                                startActivity(intent);
-                            }
+                    if (isiBarang > 0){
+                        for (listTransaksiBarang listBarang : listTrBarang) {
+                            String idBrng = listBarang.getId();
+                            int qty = listBarang.getQty();
+                            int total = listBarang.getTotal();
 
-                            @Override
-                            public void onError(String error) {
-                                Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
-                                Log.e("errListTransaksi", error);
-                            }
-                        });
+                            volleyRequestHandler.listBarangTr(no_nota, idBrng, qty, total, new volleyRequestHandler.ResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Intent intent = new Intent(PembayaranAdminActivity.this, notifSelesaiBeliActivity.class);
+                                    intent.putExtra("grand_total", grandTotal);
+                                    intent.putExtra("status", status_bayar);
+                                    intent.putExtra("nota", no_nota);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    Log.e("errListTransaksi", error);
+                                }
+                            });
+                        }
+                    }
+
+                    if (isiPaket > 0){
+                        for (listTransaksiPaket listBarang : listPaketTr) {
+                            String identitasPkt = listBarang.getIdentitasPaket();
+                            String idPaket = listBarang.getIdPaket();
+                            int qty = listBarang.getQty();
+                            int total = listBarang.getTotal();
+
+                            volleyRequestHandler.listPaketTr(identitasPkt,no_nota, idPaket, qty, total, new volleyRequestHandler.ResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    Log.e("errListTransaksi", error);
+                                }
+                            });
+                        }
+
+                        for (listTransaksiDetailPaket listBarang : listDetailPaket) {
+                            String identitasPkt = listBarang.getId_paket();
+                            String idBarang = listBarang.getId_barang();
+                            int qty = listBarang.getQty();
+
+                            volleyRequestHandler.listDetailPaket(identitasPkt,idBarang, qty, new volleyRequestHandler.ResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    Log.e("errListTransaksi", error);
+                                }
+                            });
+                        }
+
+                        Intent intent = new Intent(PembayaranAdminActivity.this, notifSelesaiBeliActivity.class);
+                        intent.putExtra("grand_total", grandTotal);
+                        intent.putExtra("status", status_bayar);
+                        intent.putExtra("nota", no_nota);
+                        startActivity(intent);
                     }
                     Toast.makeText(PembayaranAdminActivity.this, "Transaksi Dibuat", Toast.LENGTH_SHORT).show();
 
@@ -253,28 +320,80 @@ public class PembayaranAdminActivity extends AppCompatActivity {
                 responsNota getResponNota = gson.fromJson(response.toString(), responsNota.class);
                 if (getResponNota.getCode() == 200) {
                     no_nota = getResponNota.getNota();
-                    for (listTransaksiBarang listBarang : listTrBarang) {
-                        String idBrng = listBarang.getId();
-                        int qty = listBarang.getQty();
-                        int total = listBarang.getTotal();
 
-                        volleyRequestHandler.listBarangTr(no_nota, idBrng, qty, total, new volleyRequestHandler.ResponseListener() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Intent intent = new Intent(PembayaranAdminActivity.this, notifSelesaiBeliActivity.class);
-                                intent.putExtra("grand_total", grandTotal);
-                                intent.putExtra("status", status_bayar);
-                                intent.putExtra("nota", no_nota);
-                                startActivity(intent);
-                            }
+                    if (isiBarang > 0){
+                        for (listTransaksiBarang listBarang : listTrBarang) {
+                            String idBrng = listBarang.getId();
+                            int qty = listBarang.getQty();
+                            int total = listBarang.getTotal();
 
-                            @Override
-                            public void onError(String error) {
-                                Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
-                                Log.e("errListTransaksi", error);
-                            }
-                        });
+                            volleyRequestHandler.listBarangTr(no_nota, idBrng, qty, total, new volleyRequestHandler.ResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Intent intent = new Intent(PembayaranAdminActivity.this, notifSelesaiBeliActivity.class);
+                                    intent.putExtra("grand_total", grandTotal);
+                                    intent.putExtra("status", status_bayar);
+                                    intent.putExtra("nota", no_nota);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    Log.e("errListTransaksi", error);
+                                }
+                            });
+                        }
+                    }
+
+                    if (isiPaket > 0){
+                        for (listTransaksiPaket listBarang : listPaketTr) {
+                            String identitasPkt = listBarang.getIdentitasPaket();
+                            String idPaket = listBarang.getIdPaket();
+                            int qty = listBarang.getQty();
+                            int total = listBarang.getTotal();
+
+                            volleyRequestHandler.listPaketTr(identitasPkt,no_nota, idPaket, qty, total, new volleyRequestHandler.ResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    Log.e("errListTransaksi", error);
+                                }
+                            });
+                        }
+
+                        for (listTransaksiDetailPaket listBarang : listDetailPaket) {
+                            String identitasPkt = listBarang.getId_paket();
+                            String idBarang = listBarang.getId_barang();
+                            int qty = listBarang.getQty();
+
+                            volleyRequestHandler.listDetailPaket(identitasPkt,idBarang, qty, new volleyRequestHandler.ResponseListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(PembayaranAdminActivity.this, "nota : " + no_nota, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PembayaranAdminActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    Log.e("errListTransaksi", error);
+                                }
+                            });
+                        }
+
+                        Intent intent = new Intent(PembayaranAdminActivity.this, notifSelesaiBeliActivity.class);
+                        intent.putExtra("grand_total", grandTotal);
+                        intent.putExtra("status", status_bayar);
+                        intent.putExtra("nota", no_nota);
+                        startActivity(intent);
                     }
                     Toast.makeText(PembayaranAdminActivity.this, "Transaksi Dibuat", Toast.LENGTH_SHORT).show();
 
@@ -293,15 +412,26 @@ public class PembayaranAdminActivity extends AppCompatActivity {
     }
 
     private void getGrandTotal(){
+        int totalHargaBarang = 0;
+        int totalHargaPaket = 0;
         dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT SUM(total) AS grand_total FROM list_transaksi";
+        String query = "SELECT COALESCE(SUM(total), 0) AS grand_total FROM list_transaksi";
         Cursor cursor = db.rawQuery(query,null);
         if (cursor.moveToFirst()) {
-            grandTotal = cursor.getInt(cursor.getColumnIndexOrThrow("grand_total"));
+            totalHargaBarang = cursor.getInt(cursor.getColumnIndexOrThrow("grand_total"));
         }
         cursor.close();
+
+        String query1 = "SELECT COALESCE(SUM(total_paket), 0) AS grand_total FROM paket_tr";
+        Cursor cursor1 = db.rawQuery(query1,null);
+        if (cursor1.moveToFirst()) {
+            totalHargaPaket = cursor1.getInt(cursor1.getColumnIndexOrThrow("grand_total"));
+        }
+        cursor1.close();
         db.close();
+
+        grandTotal = totalHargaBarang + totalHargaPaket;
     }
 
     private void addListBarang(){
@@ -324,6 +454,55 @@ public class PembayaranAdminActivity extends AppCompatActivity {
             Integer total = cursor.getInt(cursor.getColumnIndexOrThrow("total"));
 
             listTrBarang.add(new listTransaksiBarang(id,qty,total));
+        }
+        cursor.close();
+    }
+
+    private void addListPaketTr(){
+        listPaketTr = new ArrayList<>();
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                "paket_tr",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        while (cursor.moveToNext()) {
+            String identitasPkt = cursor.getString(cursor.getColumnIndexOrThrow("identitas_pkt"));
+            String idPaket = cursor.getString(cursor.getColumnIndexOrThrow("id_paket"));
+            int qty = cursor.getInt(cursor.getColumnIndexOrThrow("qty_paket"));
+            int total = cursor.getInt(cursor.getColumnIndexOrThrow("total_paket"));
+
+            listPaketTr.add(new listTransaksiPaket(identitasPkt,idPaket,qty,total));
+        }
+        cursor.close();
+    }
+
+    private void addDetailListPaket(){
+        listDetailPaket = new ArrayList<>();
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                "detail_paket",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        while (cursor.moveToNext()) {
+            String idPaket = cursor.getString(cursor.getColumnIndexOrThrow("identitas_pkt_fk"));
+            String idBarang = cursor.getString(cursor.getColumnIndexOrThrow("id_barang_paket"));
+            int qty = cursor.getInt(cursor.getColumnIndexOrThrow("qty_detail_paket"));
+
+            listDetailPaket.add(new listTransaksiDetailPaket(idPaket,idBarang,qty));
         }
         cursor.close();
     }

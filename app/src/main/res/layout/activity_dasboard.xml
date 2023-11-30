@@ -50,6 +50,7 @@
         android:id="@+id/cardTransaksi"
         android:layout_width="350dp"
         android:layout_height="55dp"
+        android:layout_marginTop="690dp"
         android:onClick="btnTransaksi"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#8B4741"
@@ -57,7 +58,7 @@
         android:outlineAmbientShadowColor="@color/black"
         app:cardCornerRadius="30dp"
         app:cardElevation="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/navBar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/navBar">
 

@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +29,20 @@ import com.abayhq.browniesnfriends.adapter.adapterNota;
 import com.abayhq.browniesnfriends.home.DasboardActivity;
 import com.abayhq.browniesnfriends.respons.barangNotaRespons;
 import com.abayhq.browniesnfriends.respons.notaTransaksiRespons;
+import com.abayhq.browniesnfriends.respons.paketNotaRespons;
 import com.abayhq.browniesnfriends.settergetter.dataNotaTransaksi;
 import com.abayhq.browniesnfriends.settergetter.listBarangNota;
+import com.abayhq.browniesnfriends.settergetter.listPaketNota;
 import com.abayhq.browniesnfriends.transaksi.notifSelesaiBeliActivity;
 import com.abayhq.browniesnfriends.transaksi.pelunasanActivity;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.google.gson.Gson;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +66,8 @@ public class notaActivity extends AppCompatActivity {
     private adapterNota adapter;
     private ArrayList<listBarangNota> menuArrayList;
     Boolean pickAlasan = false;
+    private MultiFormatWriter multi = new MultiFormatWriter();
+    int requestsCompleted;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,6 +190,16 @@ public class notaActivity extends AppCompatActivity {
                             txtKurangbayar.setVisibility(View.GONE);
                         }
 
+                        //generate QRcode
+                        try {
+                            BitMatrix bitMatrix = multi.encode(nota, BarcodeFormat.QR_CODE, 300, 300);
+                            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                            imgQr.setImageBitmap(bitmap);
+                        }catch (WriterException e){
+                            e.printStackTrace();
+                        }
+
                         noNota.setText(nota);
                         namaCust.setText(nama);
                         tglAmbil.setText(formattedDate);
@@ -198,13 +220,10 @@ public class notaActivity extends AppCompatActivity {
                                         String total = list.getTotal();
 
                                         menuArrayList.add(new listBarangNota(nama, qty, harga, total));
-
-                                        recyclerView = findViewById(R.id.recyclerNota);
-                                        adapter = new adapterNota(menuArrayList,notaActivity.this);
-                                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(notaActivity.this);
-                                        recyclerView.setLayoutManager(layoutManager);
-                                        recyclerView.setAdapter(adapter);
                                     }
+                                    onVolleyRequestComplete(); //untuk memastikan kode get list barang dan paket dieksekusi terlebih dahulu sebelum setAdapter
+                                }else if (barangRes.getCode() == 400){
+                                    onVolleyRequestComplete();
                                 }
                             }
 
@@ -213,6 +232,38 @@ public class notaActivity extends AppCompatActivity {
 
                             }
                         });
+
+                        volleyRequestHandler.notaPaket(nota, new volleyRequestHandler.ResponseListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                paketNotaRespons barangRes = gson.fromJson(response.toString(), paketNotaRespons.class);
+                                if (barangRes.getCode() == 200){
+                                    List<listPaketNota> barangList = barangRes.getNota_list();
+                                    for (listPaketNota list : barangList){
+                                        String qty = list.getQty();
+                                        String nama = list.getNama_paket();
+                                        String harga = list.getHarga_jual();
+                                        String total = list.getTotal();
+
+                                        menuArrayList.add(new listBarangNota(nama, qty, harga, total));
+                                    }
+                                    onVolleyRequestComplete();
+                                }else if (barangRes.getCode() == 400){
+                                    onVolleyRequestComplete();
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+
+                            }
+                        });
+
+//                        recyclerView = findViewById(R.id.recyclerNota);
+//                        adapter = new adapterNota(menuArrayList,notaActivity.this);
+//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(notaActivity.this);
+//                        recyclerView.setLayoutManager(layoutManager);
+//                        recyclerView.setAdapter(adapter);
 
                     }else if (notaRespons.getCode() == 400){
                         Toast.makeText(notaActivity.this, "Data Tidak Ditemukan", Toast.LENGTH_SHORT).show();
@@ -271,6 +322,16 @@ public class notaActivity extends AppCompatActivity {
                             btnBatal.setVisibility(View.GONE);
                         }
 
+                        //generate QRcode
+                        try {
+                            BitMatrix bitMatrix = multi.encode(nota, BarcodeFormat.QR_CODE, 300, 300);
+                            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                            imgQr.setImageBitmap(bitmap);
+                        }catch (WriterException e){
+                            e.printStackTrace();
+                        }
+
                         noNota.setText(nota);
                         namaCust.setText(nama);
                         tglAmbil.setText(formattedDate);
@@ -291,13 +352,10 @@ public class notaActivity extends AppCompatActivity {
                                         String total = list.getTotal();
 
                                         menuArrayList.add(new listBarangNota(nama, qty, harga, total));
-
-                                        recyclerView = findViewById(R.id.recyclerNota);
-                                        adapter = new adapterNota(menuArrayList,notaActivity.this);
-                                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(notaActivity.this);
-                                        recyclerView.setLayoutManager(layoutManager);
-                                        recyclerView.setAdapter(adapter);
                                     }
+                                    onVolleyRequestComplete();
+                                }else if (barangRes.getCode() == 400){
+                                    onVolleyRequestComplete();
                                 }
                             }
 
@@ -306,6 +364,39 @@ public class notaActivity extends AppCompatActivity {
 
                             }
                         });
+
+                        volleyRequestHandler.notaPaket(notaTerjadwal, new volleyRequestHandler.ResponseListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                paketNotaRespons barangRes = gson.fromJson(response.toString(), paketNotaRespons.class);
+                                if (barangRes.getCode() == 200){
+                                    List<listPaketNota> barangList = barangRes.getNota_list();
+                                    for (listPaketNota list : barangList){
+                                        String qty = list.getQty();
+                                        String nama = list.getNama_paket();
+                                        String harga = list.getHarga_jual();
+                                        String total = list.getTotal();
+
+                                        menuArrayList.add(new listBarangNota(nama, qty, harga, total));
+                                    }
+                                    onVolleyRequestComplete();
+                                }else if (barangRes.getCode() == 400){
+                                    onVolleyRequestComplete();
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+
+                            }
+                        });
+
+//                        Toast.makeText(notaActivity.this, "Dieksekusi kok", Toast.LENGTH_SHORT).show();
+//                        recyclerView = findViewById(R.id.recyclerNota);
+//                        adapter = new adapterNota(menuArrayList,notaActivity.this);
+//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(notaActivity.this);
+//                        recyclerView.setLayoutManager(layoutManager);
+//                        recyclerView.setAdapter(adapter);
 
                     }else if (notaRespons.getCode() == 400){
                         Toast.makeText(notaActivity.this, "Data Tidak Ditemukan", Toast.LENGTH_SHORT).show();
@@ -360,6 +451,16 @@ public class notaActivity extends AppCompatActivity {
                         btnBatal.setVisibility(View.GONE);
                         btnAmbil.setVisibility(View.VISIBLE);
 
+                        //generate QRcode
+                        try {
+                            BitMatrix bitMatrix = multi.encode(nota, BarcodeFormat.QR_CODE, 300, 300);
+                            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                            imgQr.setImageBitmap(bitmap);
+                        }catch (WriterException e){
+                            e.printStackTrace();
+                        }
+
                         noNota.setText(nota);
                         namaCust.setText(nama);
                         tglAmbil.setText(formattedDate);
@@ -380,13 +481,10 @@ public class notaActivity extends AppCompatActivity {
                                         String total = list.getTotal();
 
                                         menuArrayList.add(new listBarangNota(nama, qty, harga, total));
-
-                                        recyclerView = findViewById(R.id.recyclerNota);
-                                        adapter = new adapterNota(menuArrayList,notaActivity.this);
-                                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(notaActivity.this);
-                                        recyclerView.setLayoutManager(layoutManager);
-                                        recyclerView.setAdapter(adapter);
                                     }
+                                    onVolleyRequestComplete();
+                                }else if (barangRes.getCode() == 400){
+                                    onVolleyRequestComplete();
                                 }
                             }
 
@@ -395,6 +493,38 @@ public class notaActivity extends AppCompatActivity {
 
                             }
                         });
+
+                        volleyRequestHandler.notaPaket(notaProsesAdmin, new volleyRequestHandler.ResponseListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                paketNotaRespons barangRes = gson.fromJson(response.toString(), paketNotaRespons.class);
+                                if (barangRes.getCode() == 200){
+                                    List<listPaketNota> barangList = barangRes.getNota_list();
+                                    for (listPaketNota list : barangList){
+                                        String qty = list.getQty();
+                                        String nama = list.getNama_paket();
+                                        String harga = list.getHarga_jual();
+                                        String total = list.getTotal();
+
+                                        menuArrayList.add(new listBarangNota(nama, qty, harga, total));
+                                    }
+                                    onVolleyRequestComplete();
+                                }else if (barangRes.getCode() == 400){
+                                    onVolleyRequestComplete();
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+
+                            }
+                        });
+
+//                        recyclerView = findViewById(R.id.recyclerNota);
+//                        adapter = new adapterNota(menuArrayList,notaActivity.this);
+//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(notaActivity.this);
+//                        recyclerView.setLayoutManager(layoutManager);
+//                        recyclerView.setAdapter(adapter);
 
                     }else if (notaRespons.getCode() == 400){
                         Toast.makeText(notaActivity.this, "Data Tidak Ditemukan", Toast.LENGTH_SHORT).show();
@@ -406,6 +536,19 @@ public class notaActivity extends AppCompatActivity {
 
                 }
             });
+        }
+    }
+
+    private void onVolleyRequestComplete() {
+        requestsCompleted++;
+
+        if (requestsCompleted == 2) {
+            // Kedua permintaan telah selesai, tampilkan pesan dan inisialisasi RecyclerView
+            recyclerView = findViewById(R.id.recyclerNota);
+            adapter = new adapterNota(menuArrayList, notaActivity.this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(notaActivity.this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
         }
     }
 
@@ -570,7 +713,7 @@ public class notaActivity extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }

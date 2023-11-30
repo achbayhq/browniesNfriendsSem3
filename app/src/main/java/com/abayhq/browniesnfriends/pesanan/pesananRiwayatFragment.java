@@ -19,10 +19,8 @@ import android.widget.Toast;
 
 import com.abayhq.browniesnfriends.GlobalVariable;
 import com.abayhq.browniesnfriends.R;
-import com.abayhq.browniesnfriends.adapter.adapterPesananProses;
 import com.abayhq.browniesnfriends.adapter.adapterPesananRiwayat;
 import com.abayhq.browniesnfriends.databasesqlite.dbTransaksiHelper;
-import com.abayhq.browniesnfriends.home.DasboardActivity;
 import com.abayhq.browniesnfriends.nota.notaActivity;
 import com.abayhq.browniesnfriends.respons.barangNotaRespons;
 import com.abayhq.browniesnfriends.respons.pesananAdminRespons;
@@ -97,7 +95,7 @@ public class pesananRiwayatFragment extends Fragment {
     private RecyclerView recyclerView;
     private adapterPesananRiwayat adapter;
     private ArrayList<setgetPesanan> pesananArrayList;
-    public ArrayList<setgetMenu> transaksiList = new ArrayList<>();
+    public ArrayList<setgetMenu> transaksiList;
     String telepon, akses;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,34 +129,32 @@ public class pesananRiwayatFragment extends Fragment {
                             public void pesanLagiOnClick(int position) {
                                 setgetPesanan selectedNota = pesananArrayList.get(position);
                                 String nota = selectedNota.getNota();
+                                Toast.makeText(getContext(), "nota: "+nota, Toast.LENGTH_SHORT).show();
                                 volleyRequestHandler.notaBarang(nota, new volleyRequestHandler.ResponseListener() {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         barangNotaRespons barangRes = gson.fromJson(response.toString(), barangNotaRespons.class);
                                         if (barangRes.getCode() == 200) {
+                                            transaksiList = new ArrayList<>();
+                                            dbTransaksiHelper dbHelper = new dbTransaksiHelper(getContext(), dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+                                            SQLiteDatabase db = dbHelper.getWritableDatabase();
                                             List<listBarangNota> barangList = barangRes.getNota_list();
+                                            Toast.makeText(getContext(), "masukkan data ke list", Toast.LENGTH_SHORT).show();
                                             for (listBarangNota list : barangList) {
                                                 String id = list.getId_barang();
                                                 String img = list.getImage_barang();
                                                 String nama = list.getNama_barang();
                                                 String harga = list.getHarga_jual();
-                                                String deskripsi = list.getDeskripsi();
+                                                String qty = list.getQty();
                                                 String URLimage = "http://" + GlobalVariable.IP + "/APIproject/image/" + img;
 
-                                                transaksiList.add(new setgetMenu(URLimage, id, nama, deskripsi, harga));
-                                            }
-
-                                            dbTransaksiHelper dbHelper = new dbTransaksiHelper(getContext(), dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
-                                            SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                                            for (setgetMenu menu : transaksiList){
                                                 ContentValues values = new ContentValues();
-                                                values.put("img", menu.getImg());
-                                                values.put("id_barang", menu.getId());
-                                                values.put("nama_kue", menu.getNama());
-                                                values.put("harga", menu.getHarga());
-                                                values.put("qty", menu.getQty());
-                                                values.put("total", menu.getQty() * Integer.parseInt(menu.getHarga()));
+                                                values.put("img", URLimage);
+                                                values.put("id_barang", id);
+                                                values.put("nama_kue", nama);
+                                                values.put("harga", harga);
+                                                values.put("qty", qty);
+                                                values.put("total", Integer.parseInt(qty) * Integer.parseInt(harga));
 
                                                 try {
                                                     long newRowId = db.insert("list_transaksi", null, values);

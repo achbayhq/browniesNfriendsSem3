@@ -1,9 +1,12 @@
 package com.abayhq.browniesnfriends.pesanan;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,17 +17,22 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.abayhq.browniesnfriends.R;
+import com.abayhq.browniesnfriends.adapter.QRscanner;
 import com.abayhq.browniesnfriends.adapter.adapterPesananTerjadwal;
 import com.abayhq.browniesnfriends.adapter.adapterTabPesanan;
+import com.abayhq.browniesnfriends.nota.notaActivity;
 import com.abayhq.browniesnfriends.respons.userLoginRespons;
 import com.abayhq.browniesnfriends.settergetter.dataUserLogin;
 import com.abayhq.browniesnfriends.volley.volleyRequestHandler;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import org.json.JSONObject;
 
@@ -77,8 +85,9 @@ public class tabPesananFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
-    TextView txtPesanan;
+    TextView txtPesanan, txtCari;
     String telepon, akses;
+    Button btnScan;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,6 +97,8 @@ public class tabPesananFragment extends Fragment {
         tabLayout = root.findViewById(R.id.tabLayout);
         viewPager = root.findViewById(R.id.forFrameTab);
         txtPesanan = root.findViewById(R.id.txtPesanan);
+        btnScan = root.findViewById(R.id.btnScanQR);
+        txtCari = root.findViewById(R.id.txtCariPesanan);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         telepon = sharedPreferences.getString("telepon", "");
@@ -127,6 +138,33 @@ public class tabPesananFragment extends Fragment {
                 (tab, position) -> tab.setText(adapterTabPesanan.getPageTitle(position).toString())
         ).attach();
 
+
+
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanner();
+            }
+        });
+
         return root;
     }
+
+    private void scanner(){
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Volume Up To Flash On");
+        options.setBeepEnabled(true);
+        options.setOrientationLocked(true);
+        options.setCaptureActivity(QRscanner.class);
+        launcher.launch(options);
+    }
+
+    ActivityResultLauncher<ScanOptions> launcher = registerForActivityResult(new ScanContract(), result -> {
+        if (result.getContents() != null){
+            String getNotaFromQRcode = result.getContents();
+            Intent intent = new Intent(getContext(), notaActivity.class);
+            intent.putExtra("notaProsesAdmin", getNotaFromQRcode);
+            startActivity(intent);
+        }
+    });
 }

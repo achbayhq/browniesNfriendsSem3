@@ -1,6 +1,8 @@
 package com.abayhq.browniesnfriends.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abayhq.browniesnfriends.R;
+import com.abayhq.browniesnfriends.home.DasboardActivity;
+import com.abayhq.browniesnfriends.menu.paketActivity;
 import com.abayhq.browniesnfriends.settergetter.setgetMenu;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.ViewHolder> {
 
@@ -54,10 +61,12 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
     public void onBindViewHolder(@NonNull adapterMenuUtama.ViewHolder holder, int position) {
         setgetMenu menu = menunya.get(position);
 
-        Glide.with(context).load(menu.getImg()).into(holder.Img);   //ini buat nampilin gambar dari database
+        Glide.with(context).load(menu.getImg()).centerCrop().transition(DrawableTransitionOptions.withCrossFade()).into(holder.Img);   //ini buat nampilin gambar dari database
         holder.namaKue.setText(menu.getNama());
         holder.desKue.setText(menu.getDeskripsi());
-        holder.hargaKue.setText(String.valueOf(menu.getHarga()));
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+        String formattedHarga = numberFormat.format(Integer.valueOf(menu.getHarga()));
+        holder.hargaKue.setText(String.valueOf(formattedHarga));
         holder.qty.setText(String.valueOf(menu.getQty()));
 
         if (menu.getVisibility()) {
@@ -101,11 +110,20 @@ public class adapterMenuUtama extends RecyclerView.Adapter<adapterMenuUtama.View
         });
 
         holder.btnBeli.setOnClickListener(view -> {
-            menu.setQty(1);
-            menu.setVisibility(true);
-            notifyDataSetChanged(); // Refresh the view to update the button visibility
-            if (beliOnClickListener != null) {
-                beliOnClickListener.beliOnClick(position);
+            if (menu.getJenisMenu().equals("barang")) {
+                menu.setQty(1);
+                menu.setVisibility(true);
+                notifyDataSetChanged(); // Refresh the view to update the button visibility
+                if (beliOnClickListener != null) {
+                    beliOnClickListener.beliOnClick(position);
+                }
+            }else if (menu.getJenisMenu().equals("paket")){
+                Intent intent = new Intent(context, paketActivity.class);
+                intent.putExtra("id", menu.getId());
+                //context.startActivity(intent);
+                if (context instanceof Activity) {
+                    ((Activity) context).startActivityForResult(intent, DasboardActivity.REQUEST_CODE_PAKET);
+                }
             }
         });
 

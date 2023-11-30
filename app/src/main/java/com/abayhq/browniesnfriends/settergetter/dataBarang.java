@@ -2,7 +2,7 @@ package com.abayhq.browniesnfriends.settergetter;
 
 public class dataBarang {
     String id_barang;
-    String image_barang;
+    String gambar_barang;
     String nama_barang;
     String harga_jual;
     String keterangan;
@@ -18,11 +18,11 @@ public class dataBarang {
     }
 
     public String getImage_barang() {
-        return image_barang;
+        return gambar_barang;
     }
 
-    public void setImage_barang(String image_barang) {
-        this.image_barang = image_barang;
+    public void setImage_barang(String gambar_barang) {
+        this.gambar_barang = gambar_barang;
     }
 
     public String getNama_barang() {

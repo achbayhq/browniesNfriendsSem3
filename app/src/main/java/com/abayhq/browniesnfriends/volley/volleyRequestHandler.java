@@ -163,6 +163,69 @@ public class volleyRequestHandler {
         requestQueue.add(request);
     }
 
+    public void filterJenisBarang(final String jenisBarang, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=filterJenisBarang&jenis_kue="+jenisBarang;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
+    public void filterBestSeller( final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=filterBestSeller";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
+    public void getPaket( final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=getPaket";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
     public void transaksi(final String imgBukti,final Integer grandTotal, final Integer bayar, final Integer kembalian, final Integer kurangBayar, final String statusBayar, final String tlpPembeli, final String tlpPemesan, final String tanggalAmbil, final String jam, final ResponseListener listener) {
         String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=transaksi";
 
@@ -210,6 +273,70 @@ public class volleyRequestHandler {
             jsonObject.put("id_barang", id_barang);
             jsonObject.put("qty", qty);
             jsonObject.put("total", total);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+
+        requestQueue.add(request);
+    }
+
+    public void listPaketTr(final String identitasPkt, final String nota, final String idPaket, final Integer qty, final Integer total, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=barangPaketTr";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("identitas_pkt", identitasPkt);
+            jsonObject.put("no_nota", nota);
+            jsonObject.put("id_paket", idPaket);
+            jsonObject.put("qty", qty);
+            jsonObject.put("total", total);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+
+        requestQueue.add(request);
+    }
+
+    public void listDetailPaket(final String identitasPkt, final String idPaket, final Integer qty, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=barangDetailPaket";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("identitas_pkt", identitasPkt);
+            jsonObject.put("id_barang", idPaket);
+            jsonObject.put("qty", qty);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -432,6 +559,27 @@ public class volleyRequestHandler {
         requestQueue.add(request);
     }
 
+    public void notaPaket(final String nota, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=getNotaPaket&no_nota=" + nota;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
     public void reqPembatalan(final String nota, final String alasan, final ResponseListener listener) {
         String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=reqPembatalan";
 
@@ -515,4 +663,87 @@ public class volleyRequestHandler {
 
         requestQueue.add(request);
     }
-}
+
+    public void getDetailPaket(final String idPaket, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=getDetailPaket&id_paket="+ idPaket;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
+    public void getBarangPaket( final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=getBarangPaket";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
+    public void getInfoBarang(final String namaBarang, final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=getInfoBarang&nama_barang="+ namaBarang;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }
+
+    public void getIdentitasPkt( final ResponseListener listener) {
+        String url = "http://"+ GlobalVariable.IP +"/APIproject/APImobile.php?function=getIdentitasPaket";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response sukses dari server
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Response error dari server
+                        listener.onError(error.getMessage());
+                    }
+                });
+        requestQueue.add(request);
+    }}

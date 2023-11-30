@@ -1,14 +1,15 @@
 package com.abayhq.browniesnfriends.settergetter;
 
 public class setgetRincianBeli {
-    String nama, harga, img;
+    String nama, harga, img, jenis;
     Integer qty;
 
-    public setgetRincianBeli(String img, String nama, String harga, Integer qty){
+    public setgetRincianBeli(String img, String nama, String harga, Integer qty, String jenis){
         this.nama = nama;
         this.harga = harga;
         this.qty = qty;
         this.img = img;
+        this.jenis = jenis;
     }
     public String getNama() {
         return nama;
@@ -40,5 +41,13 @@ public class setgetRincianBeli {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getJenis() {
+        return jenis;
+    }
+
+    public void setJenis(String jenis) {
+        this.jenis = jenis;
     }
 }

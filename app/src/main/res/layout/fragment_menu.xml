@@ -33,6 +33,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/txtCariMenu"
                 android:layout_width="260dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
@@ -65,12 +66,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/nyoba"
+                android:id="@+id/btnAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="4dp"
-                android:backgroundTint="#FFBCB5"
+                android:backgroundTint="#BA7871"
                 android:elevation="5dp"
                 android:fontFamily="@font/poppins"
                 android:text="All"
@@ -80,6 +81,7 @@
                 app:strokeWidth="1dp" />
 
             <Button
+                android:id="@+id/btnBestSeller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -94,6 +96,7 @@
                 app:strokeWidth="1dp" />
 
             <Button
+                android:id="@+id/btnKueManis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -108,6 +111,7 @@
                 app:strokeWidth="1dp" />
 
             <Button
+                android:id="@+id/btnKueAsin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -122,6 +126,7 @@
                 app:strokeWidth="1dp" />
 
             <Button
+                android:id="@+id/btnPaket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -129,7 +134,7 @@
                 android:backgroundTint="#FFBCB5"
                 android:elevation="5dp"
                 android:fontFamily="@font/poppins"
-                android:text="Kemasan"
+                android:text="Paket"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:strokeColor="#8B4741"

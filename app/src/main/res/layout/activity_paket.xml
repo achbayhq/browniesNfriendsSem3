@@ -7,114 +7,160 @@
     tools:context=".menu.paketActivity">
 
     <ImageView
-        android:id="@+id/imageView23"
-        android:layout_width="409dp"
-        android:layout_height="368dp"
+        android:id="@+id/imgPaket"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/paket" />
 
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/poppins"
-        android:text="Paket Mini 10"
-        android:textColor="#47271F"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView23" />
-
-    <TextView
-        android:id="@+id/textView25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Paket kue mini dengan isi 10 macam kue"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#928383"
-        app:layout_constraintEnd_toEndOf="@+id/textView20"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView20"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
-
-    <TextView
-        android:id="@+id/textView32"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Rp"
-        android:textColor="@color/brownLogo"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView25"
-        app:layout_constraintTop_toBottomOf="@+id/textView25" />
-
-    <TextView
-        android:id="@+id/textView35"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="14.000"
-        android:textColor="@color/brownLogo"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView32"
-        app:layout_constraintStart_toEndOf="@+id/textView32"
-        app:layout_constraintTop_toTopOf="@+id/textView32" />
-
-    <View
-        android:id="@+id/view17"
-        android:layout_width="390dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/brownLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView32" />
-
-    <TextView
-        android:id="@+id/textView36"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Pilih Kue"
-        android:textColor="#928383"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view17" />
-
-    <Button
-        android:id="@+id/bottom_sheet_paket"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/basePutih"
-        android:drawableLeft="@drawable/addbutton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.518"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView36" />
-
-    <ListView
-        android:visibility="gone"
-        android:layout_width="409dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="10dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="564dp"
+        android:layout_marginTop="-40dp"
+        app:cardCornerRadius="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView36" />
+        app:layout_constraintTop_toBottomOf="@+id/imgPaket">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtNamaPaket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Paket Mini 10"
+                android:textColor="#47271F"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.116"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtDeskripsiPaket"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Paket kue mini dengan isi 10 macam kue"
+                android:textSize="14sp"
+                android:textColor="#928383"
+                app:layout_constraintEnd_toEndOf="@+id/txtNamaPaket"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txtNamaPaket"
+                app:layout_constraintTop_toBottomOf="@+id/txtNamaPaket" />
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Rp"
+                android:textColor="@color/brownLogo"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/txtDeskripsiPaket"
+                app:layout_constraintTop_toBottomOf="@+id/txtDeskripsiPaket" />
+
+            <TextView
+                android:id="@+id/txtHargaPaket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="14.000"
+                android:textColor="@color/brownLogo"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/textView32"
+                app:layout_constraintStart_toEndOf="@+id/textView32"
+                app:layout_constraintTop_toTopOf="@+id/textView32" />
+
+            <View
+                android:id="@+id/view17"
+                android:layout_width="390dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/brownLogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Pilih Kue"
+                android:textColor="#928383"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view17" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/txtEditIsiPaket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="272dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Edit"
+                android:textColor="#2196F3"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/textView36"
+                app:layout_constraintStart_toEndOf="@+id/textView36"
+                app:layout_constraintTop_toTopOf="@+id/textView36"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <View
+                android:visibility="gone"
+                android:id="@+id/view18"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="-7dp"
+                android:background="#2196F3"
+                app:layout_constraintEnd_toEndOf="@id/txtEditIsiPaket"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="@id/txtEditIsiPaket"
+                app:layout_constraintTop_toBottomOf="@+id/txtEditIsiPaket" />
+
+            <Button
+                android:id="@+id/btnPilihKue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/basePutih"
+                android:drawableLeft="@drawable/addbutton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.518"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
+            <ListView
+                android:visibility="gone"
+                android:id="@+id/listKue"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView36" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -129,9 +175,9 @@
             android:background="#D6D6D6">
 
             <Button
-                android:id="@+id/button12"
+                android:id="@+id/btnPesanPaket"
                 android:layout_width="300dp"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="#8B4741"
                 android:text="TAMBAH PESANAN"
@@ -147,22 +193,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="@font/poppins"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Jumlah Pesanan"
-                android:textSize="21sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/button12"
+                app:layout_constraintBottom_toTopOf="@+id/btnPesanPaket"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button13"
+                android:id="@+id/btnTambahPaket"
                 android:layout_width="31dp"
                 android:layout_height="33dp"
                 android:layout_marginEnd="30dp"
-                android:backgroundTint="#D6D6D6"
+                android:backgroundTint="@color/transparan"
                 app:icon="@drawable/logo_tambah"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
@@ -173,24 +219,25 @@
                 app:layout_constraintTop_toTopOf="@+id/textView46" />
 
             <Button
-                android:id="@+id/button15"
+                android:id="@+id/btnKurangPaket"
                 android:layout_width="31dp"
                 android:layout_height="33dp"
                 android:layout_marginEnd="50dp"
-                android:backgroundTint="#D6D6D6"
+                android:backgroundTint="@color/transparan"
                 app:icon="@drawable/logo_kurang"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconSize="25dp"
                 app:iconTint="#FF7566"
-                app:layout_constraintBottom_toBottomOf="@+id/button13"
-                app:layout_constraintEnd_toStartOf="@+id/button13"
-                app:layout_constraintTop_toTopOf="@+id/button13" />
+                app:layout_constraintBottom_toBottomOf="@+id/btnTambahPaket"
+                app:layout_constraintEnd_toStartOf="@+id/btnTambahPaket"
+                app:layout_constraintTop_toTopOf="@+id/btnTambahPaket" />
 
             <EditText
+                android:id="@+id/txtQtyPaket"
                 android:layout_width="50dp"
-                android:layout_height="37dp"
-                android:backgroundTint="#D6D6D6"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/transparan"
                 android:fontFamily="@font/poppins"
                 android:inputType="number"
                 android:text="100"
@@ -198,10 +245,10 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/button15"
-                app:layout_constraintTop_toTopOf="@+id/button15"
-                app:layout_constraintVertical_bias="0.0"
-                tools:layout_editor_absoluteX="300dp" />
+                app:layout_constraintBottom_toBottomOf="@+id/btnKurangPaket"
+                app:layout_constraintStart_toEndOf="@+id/btnKurangPaket"
+                app:layout_constraintTop_toTopOf="@+id/btnKurangPaket"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

@@ -6,4 +6,6 @@
     <color name="brownLogo">#BE7A74</color>
     <color name="transparan">#00000000</color>
     <color name="fontGelap">#47271F</color>
+    <color name="defaultFilter">#FFBCB5</color>
+    <color name="selectedFilter">#BA7871</color>
 </resources>

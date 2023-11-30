@@ -52,7 +52,7 @@ public class rincianBeliAdminActivity extends AppCompatActivity {
     Spinner jamSpinner;
     private RecyclerView recyclerView;
     private adapterRincianBeli adapterRecycle;
-    private ArrayList<setgetRincianBeli> beliArrayList;
+    private ArrayList<setgetRincianBeli> beliArrayList = new ArrayList<>();;
     Integer grandTotal;
     Boolean statusAkunCust = false;
     @Override
@@ -200,6 +200,7 @@ public class rincianBeliAdminActivity extends AppCompatActivity {
         });
 
         listBeli();
+        listBeliPaket();
         getGrandTotal();
         txtGrandTotal.setText(String.valueOf(grandTotal));
         recyclerView = findViewById(R.id.recyclerViewAdmin);
@@ -214,9 +215,88 @@ public class rincianBeliAdminActivity extends AppCompatActivity {
                 setgetRincianBeli getData = beliArrayList.get(position);
                 dbTransaksiHelper dbHelper = new dbTransaksiHelper(rincianBeliAdminActivity.this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
+                String jenis = getData.getJenis();
 
-                int cekQty = getData.getQty();
-                if (cekQty != 0) {
+                if (jenis.equals("barang")) {
+                    int cekQty = getData.getQty();
+                    if (cekQty != 0) {
+                        ContentValues values = new ContentValues();
+                        values.put("qty", getData.getQty());
+                        values.put("total", getData.getQty() * Integer.parseInt(getData.getHarga()));
+
+                        String whereClause = "nama_kue = ?";
+                        String[] whereArgs = {getData.getNama()};
+
+                        int numRowsUpdated = db.update("list_transaksi", values, whereClause, whereArgs);
+
+                        if (numRowsUpdated > 0) {
+                            getGrandTotal();
+                            txtGrandTotal.setText(String.valueOf(grandTotal));
+                        } else {
+                            Toast.makeText(rincianBeliAdminActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
+                        }
+                        db.close();
+                    } else {
+                        String whereClause = "nama_kue = ?";
+                        String[] whereArgs = {getData.getNama()};
+
+                        int numRowsDelete = db.delete("list_transaksi", whereClause, whereArgs);
+
+                        if (numRowsDelete > 0) {
+                            adapterRecycle.removeItem(position);
+                            getGrandTotal();
+                            txtGrandTotal.setText(String.valueOf(grandTotal));
+                        } else {
+                            Toast.makeText(rincianBeliAdminActivity.this, "gagal update list", Toast.LENGTH_SHORT).show();
+                        }
+                        db.close();
+                    }
+                }else if (jenis.equals("paket")){
+                    int cekQty = getData.getQty();
+                    if (cekQty != 0) {
+                        ContentValues values = new ContentValues();
+                        values.put("qty_paket", getData.getQty());
+                        values.put("total_paket", getData.getQty() * Integer.parseInt(getData.getHarga()));
+
+                        String whereClause = "nama_paket = ?";
+                        String[] whereArgs = {getData.getNama()};
+
+                        int numRowsUpdated = db.update("paket_tr", values, whereClause, whereArgs);
+
+                        if (numRowsUpdated > 0) {
+                            getGrandTotal();
+                            txtGrandTotal.setText(String.valueOf(grandTotal));
+                        } else {
+                            Toast.makeText(rincianBeliAdminActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
+                        }
+                        db.close();
+                    }else{
+                        String whereClause = "nama_paket = ?";
+                        String[] whereArgs = {getData.getNama()};
+
+                        int numRowsDelete = db.delete("paket_tr", whereClause, whereArgs);
+
+                        if (numRowsDelete > 0) {
+                            adapterRecycle.removeItem(position);
+                            getGrandTotal();
+                            txtGrandTotal.setText(String.valueOf(grandTotal));
+                        } else {
+                            Toast.makeText(rincianBeliAdminActivity.this, "gagal update list", Toast.LENGTH_SHORT).show();
+                        }
+                        db.close();
+                    }
+                }
+            }
+        });
+        adapterRecycle.setTambahOnClickListener(new adapterRincianBeli.tambahOnClickListener() {
+            @Override
+            public void tambahOnClick(int position) {
+                setgetRincianBeli getData = beliArrayList.get(position);
+                dbTransaksiHelper dbHelper = new dbTransaksiHelper(rincianBeliAdminActivity.this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                String jenis = getData.getJenis();
+
+                if (jenis.equals("barang")) {
                     ContentValues values = new ContentValues();
                     values.put("qty", getData.getQty());
                     values.put("total", getData.getQty() * Integer.parseInt(getData.getHarga()));
@@ -233,46 +313,24 @@ public class rincianBeliAdminActivity extends AppCompatActivity {
                         Toast.makeText(rincianBeliAdminActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
                     }
                     db.close();
-                }else{
-                    String whereClause = "nama_kue = ?";
+                }else if (jenis.equals("paket")){
+                    ContentValues values = new ContentValues();
+                    values.put("qty_paket", getData.getQty());
+                    values.put("total_paket", getData.getQty() * Integer.parseInt(getData.getHarga()));
+
+                    String whereClause = "nama_paket = ?";
                     String[] whereArgs = {getData.getNama()};
 
-                    int numRowsDelete = db.delete("list_transaksi", whereClause, whereArgs);
+                    int numRowsUpdated = db.update("paket_tr", values, whereClause, whereArgs);
 
-                    if (numRowsDelete > 0) {
-                        adapterRecycle.removeItem(position);
+                    if (numRowsUpdated > 0) {
                         getGrandTotal();
                         txtGrandTotal.setText(String.valueOf(grandTotal));
                     } else {
-                        Toast.makeText(rincianBeliAdminActivity.this, "gagal update list", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(rincianBeliAdminActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
                     }
                     db.close();
                 }
-            }
-        });
-        adapterRecycle.setTambahOnClickListener(new adapterRincianBeli.tambahOnClickListener() {
-            @Override
-            public void tambahOnClick(int position) {
-                setgetRincianBeli getData = beliArrayList.get(position);
-                dbTransaksiHelper dbHelper = new dbTransaksiHelper(rincianBeliAdminActivity.this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                ContentValues values = new ContentValues();
-                values.put("qty", getData.getQty());
-                values.put("total", getData.getQty()* Integer.parseInt(getData.getHarga()));
-
-                String whereClause = "nama_kue = ?";
-                String[] whereArgs = {getData.getNama()};
-
-                int numRowsUpdated = db.update("list_transaksi", values, whereClause, whereArgs);
-
-                if (numRowsUpdated > 0) {
-                    getGrandTotal();
-                    txtGrandTotal.setText(String.valueOf(grandTotal));
-                } else {
-                    Toast.makeText(rincianBeliAdminActivity.this, "gagal update qty", Toast.LENGTH_SHORT).show();
-                }
-                db.close();
             }
         });
     }
@@ -284,7 +342,6 @@ public class rincianBeliAdminActivity extends AppCompatActivity {
     }
 
     void listBeli(){
-        beliArrayList = new ArrayList<>();
         dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -302,21 +359,56 @@ public class rincianBeliAdminActivity extends AppCompatActivity {
             String nama = cursor.getString(cursor.getColumnIndexOrThrow("nama_kue"));
             Integer harga = cursor.getInt(cursor.getColumnIndexOrThrow("harga"));
             Integer qty = cursor.getInt(cursor.getColumnIndexOrThrow("qty"));
-            beliArrayList.add(new setgetRincianBeli(img, nama, String.valueOf(harga), qty));
+            beliArrayList.add(new setgetRincianBeli(img, nama, String.valueOf(harga), qty, "barang"));
+        }
+        cursor.close();
+    }
+
+    void listBeliPaket(){
+        dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                "paket_tr",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        while (cursor.moveToNext()) {
+            String img = cursor.getString(cursor.getColumnIndexOrThrow("img_paket"));
+            String nama = cursor.getString(cursor.getColumnIndexOrThrow("nama_paket"));
+            String harga = cursor.getString(cursor.getColumnIndexOrThrow("harga_paket"));
+            int qty = cursor.getInt(cursor.getColumnIndexOrThrow("qty_paket"));
+
+            beliArrayList.add(new setgetRincianBeli(img, nama, harga, qty, "paket"));
         }
         cursor.close();
     }
 
     private void getGrandTotal(){
+        int totalHargaBarang = 0;
+        int totalHargaPaket = 0;
         dbTransaksiHelper dbHelper = new dbTransaksiHelper(this, dbTransaksiHelper.DB_NAME, null, dbTransaksiHelper.DB_VER);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String query = "SELECT SUM(total) AS grand_total FROM list_transaksi";
+        String query = "SELECT COALESCE(SUM(total), 0) AS grand_total FROM list_transaksi";
         Cursor cursor = db.rawQuery(query,null);
         if (cursor.moveToFirst()) {
-            grandTotal = cursor.getInt(cursor.getColumnIndexOrThrow("grand_total"));
+            totalHargaBarang = cursor.getInt(cursor.getColumnIndexOrThrow("grand_total"));
         }
         cursor.close();
+
+        String query1 = "SELECT COALESCE(SUM(total_paket), 0) AS grand_total FROM paket_tr";
+        Cursor cursor1 = db.rawQuery(query1,null);
+        if (cursor1.moveToFirst()) {
+            totalHargaPaket = cursor1.getInt(cursor1.getColumnIndexOrThrow("grand_total"));
+        }
+        cursor1.close();
         db.close();
+
+        grandTotal = totalHargaBarang + totalHargaPaket;
     }
 
     public void lanjutPembayaranAdmin(View view) {
